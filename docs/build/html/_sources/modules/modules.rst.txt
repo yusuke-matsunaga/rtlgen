@@ -1,0 +1,31 @@
+.. _modules:
+
+Modules
+===================================
+
+VerilogWriter
+-------------
+
+.. automodule:: rtlgen.verilog_writer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+VhdlWriter
+----------
+
+.. automodule:: rtlgen.vhdl_writer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+WriterBase
+----------
+
+.. automodule:: rtlgen.writer_base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:

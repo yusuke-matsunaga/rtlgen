@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>DataType &#8212; RTL-gen 1.0.0 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="Entity" href="entity.html" />
+    <link rel="prev" title="クラス一覧" href="classes.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="entity.html" title="Entity"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="クラス一覧"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">クラス一覧</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">DataType</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="datatype">
+<span id="id1"></span><h1>DataType<a class="headerlink" href="#datatype" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>DataType クラスの定義.</p>
+<dl class="field-list simple">
+<dt class="field-odd">file</dt>
+<dd class="field-odd"><p>data_type.py</p>
+</dd>
+<dt class="field-even">author</dt>
+<dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
+</dd>
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="upperalpha simple" start="3">
+<li><p>2021 Yusuke Matsunaga, All rights reserved.</p></li>
+</ol>
+</dd>
+</dl>
+<p>RTLgen では基本データ型として以下の種類を定義している．</p>
+<ul class="simple">
+<li><p>BitType: ビット</p></li>
+<li><p>BitVectorType: (符号無し)ビットベクタ</p></li>
+<li><p>SignedBitVectorType: 符号付きビットベクタ</p></li>
+<li><p>ArrayType: 同種のデータ型の配列タイプ</p></li>
+<li><p>RecordType: 複数のデータ型を名前付きで集めたもの</p></li>
+</ul>
+<p>実はBitVectorTypeはBitTypeを基本データ型としたArrayTypeと
+同一だが，簡便性のためにあらかじめ用意している．</p>
+<p>VHDLやVerilogの場合，ビットベクタのMSBとLSBを自由に指定できるが，
+ここではLSBは常に0，MSBは size - 1 と固定している．</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">ArrayType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.SizedType</span></code></p>
+<p>array型を表すクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subtype</strong> (<em>DataType</em>) -- 要素の型</p></li>
+<li><p><strong>size</strong> (<em>int</em>) -- 要素のサイズ</p></li>
+</ul>
+</dd>
+</dl>
+<p>0 から (size - 1) の要素を持つ配列型を作る．</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_array_type</span></span></dt>
+<dd><p>array 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subtype</span></span></dt>
+<dd><p>要素の型を返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">BitType</span></span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.DataType</span></code></p>
+<p>bit型を表すクラス.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_bit_type</span></span></dt>
+<dd><p>bit 型の時 True を返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">BitVectorType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.SizedType</span></code></p>
+<p>bitvector型を表すクラス.</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) -- ベクタサイズ</p>
+</dd>
+</dl>
+<p>LSB が 0，MSB が (size - 1) であるビットベクタ型を作る．</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_bitvector_type</span></span></dt>
+<dd><p>bitvector 型の時 True を返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">DataType</span></span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>データ型を表すクラス.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">array_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ArrayType を返す．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subtype</strong> (<em>DataType</em>) -- 要素の型</p></li>
+<li><p><strong>size</strong> (<em>int</em>) -- 要素数</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bit_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>BitType を返す．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bitlen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_val</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>最大値から必要なビット長を計算する．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>max_val</strong> (<em>int</em>) -- 最大値</p>
+</dd>
+<dt class="field-even">戻り値</dt>
+<dd class="field-even"><p>max_val を表すのに必要なビット数</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bitvector_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>BitVectorType を返す．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) -- サイズ</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">float_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>FloatType を返す．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>IntegerType を返す．</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_array_type</span></span></dt>
+<dd><p>array 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_bit_type</span></span></dt>
+<dd><p>bit 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_bitvector_type</span></span></dt>
+<dd><p>bitvector 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_float_type</span></span></dt>
+<dd><p>float 型の時 True を返す．</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_integer_type</span></span></dt>
+<dd><p>integer 型の時 True を返す．</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_record_type</span></span></dt>
+<dd><p>record 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_signedbitvector_type</span></span></dt>
+<dd><p>signedbitvector 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdict</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>RecordType を返す．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>rdict</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>DataType</em><em>]</em>) -- レコードの辞書</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">signed_bitvector_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>SignedBitVectorType を返す．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) -- サイズ</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">FloatType</span></span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.DataType</span></code></p>
+<p>float 型を表すクラス.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_float_type</span></span></dt>
+<dd><p>float 型の時 True を返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">IntegerType</span></span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.DataType</span></code></p>
+<p>integer 型を表すクラス.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_integer_type</span></span></dt>
+<dd><p>integer 型の時 True を返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">RecordType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdict</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.DataType</span></code></p>
+<p>record型を表すクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>rdict</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>DataType</em><em>]</em>) -- レコード名と型の辞書</p>
+</dd>
+</dl>
+<p>個々のレコード名と型を要素として持つ複合型を作る．</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_record_type</span></span></dt>
+<dd><p>record 型の時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_list</span></span></dt>
+<dd><p>レコード名のリストを返す.</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+<p>python の dict の実装の都合上，名前の順に規則性はない．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">record_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_name</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>レコード名から型を得る.</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>record_name</strong> (<em>str</em>) -- レコード名</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>DataType or None</p>
+</dd>
+</dl>
+<p>存在しない場合には None を返す．</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">SignedBitVectorType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.SizedType</span></code></p>
+<p>signed_bitvector型を表すクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) -- ベクタサイズ</p>
+</dd>
+</dl>
+<p>LSB が 0，MSB が (size - 1) である符号付きビットベクタ型を作る．</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_signedbitvector_type</span></span></dt>
+<dd><p>signedbitvector型の時 True を返す．</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.data_type.</span></span><span class="sig-name descname"><span class="pre">SizedType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.data_type.DataType</span></code></p>
+<p>サイズを持つ型に共通の基底クラス.</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) -- 要素サイズ</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span></dt>
+<dd><p>要素サイズを返す.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>前のトピックへ</h4>
+    <p class="topless"><a href="classes.html"
+                          title="前の章へ">クラス一覧</a></p>
+  </div>
+  <div>
+    <h4>次のトピックへ</h4>
+    <p class="topless"><a href="entity.html"
+                          title="次の章へ">Entity</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/datatype.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="entity.html" title="Entity"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="クラス一覧"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="classes.html" >クラス一覧</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">DataType</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Yusuke Matsunaga.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modules &#8212; RTL-gen 1.0.0 ドキュメント</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="Port" href="port.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="port.html" title="Port"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Modules</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modules">
+<span id="id1"></span><h1>Modules<a class="headerlink" href="#modules" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="verilogwriter">
+<h2>VerilogWriter<a class="headerlink" href="#verilogwriter" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Verilog-HDL 記述を出力するクラス
+:file: verilog_writer.py
+:author: Yusuke Matsunaga (松永 裕介)
+:copyright: (C) 2021 Yusuke Matsunaga, All rights reserved.</p>
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">rtlgen.verilog_writer.</code><code class="sig-name descname">VerilogWriter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">fout</span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.writer_base.WriterBase</span></code></p>
+<p>Verilog-HDL 記述を出力するクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>fout</strong> (<em>file_object</em>) -- 出力先のファイルオブジェクト(名前付きの引数)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="vhdlwriter">
+<h2>VhdlWriter<a class="headerlink" href="#vhdlwriter" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>VHDL 記述を出力するクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">file</dt>
+<dd class="field-odd"><p>vhdl_writer.py</p>
+</dd>
+<dt class="field-even">author</dt>
+<dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
+</dd>
+<dt class="field-odd">copyright</dt>
+<dd class="field-odd"><ol class="upperalpha simple" start="3">
+<li><p>2021 Yusuke Matsunaga, All rights reserved.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">rtlgen.vhdl_writer.</code><code class="sig-name descname">VhdlWriter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">fout</span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.writer_base.WriterBase</span></code></p>
+<p>VHDL 記述を出力するクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>fout</strong> -- 出力先のファイルオブジェクト</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>fout file_object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="writerbase">
+<h2>WriterBase<a class="headerlink" href="#writerbase" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>WriterBase の定義
+:file: writer.py
+:author: Yusuke Matsunaga (松永 裕介)
+:copyright: (C) 2021 Yusuke Matsunaga, All rights reserved.</p>
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">rtlgen.writer_base.</code><code class="sig-name descname">WriterBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">fout</span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>出力用のベースクラス</p>
+<p>:param fout 出力先(名前付き引数)
+:type fout file_object</p>
+<dl class="py method">
+<dt>
+<code class="sig-name descname">write_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tab_list</span></em>, <em class="sig-param"><span class="n">elem_list</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">end</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span></dt>
+<dd><p>各フィールドの開始位置を揃えて出力する.</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tab_list</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) -- 開始位置のリスト</p></li>
+<li><p><strong>elem_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) -- 出力する要素のリスト</p></li>
+</ul>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>len(tab_list) &gt;= len(elem_list) でなければならない．</p></li>
+<li><p>指定されたタブ位置に収まらない時はずれる．</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Modules</a><ul>
+<li><a class="reference internal" href="#verilogwriter">VerilogWriter</a></li>
+<li><a class="reference internal" href="#vhdlwriter">VhdlWriter</a></li>
+<li><a class="reference internal" href="#writerbase">WriterBase</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="port.html"
+                        title="前の章へ">Port</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/modules.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="port.html" title="Port"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Modules</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Yusuke Matsunaga.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1104 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>rtlgen の使い方 &#8212; RTL-gen 1.0.0 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="クラス一覧" href="modules/classes.html" />
+    <link rel="prev" title="rtlgen: RTL記述生成器" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="modules/classes.html" title="クラス一覧"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="rtlgen: RTL記述生成器"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rtlgen の使い方</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="rtlgen">
+<h1>rtlgen の使い方<a class="headerlink" href="#rtlgen" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>1. データ型<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>rtlgen では以下のデータ型を用いることができる．</p>
+<ul class="simple">
+<li><p>BitType: 1ビット型．VHDLの std_logic と同一．</p></li>
+<li><p>BitVectorType: 多ビットベクタ型．VHDLの std_logic_vector と同一．</p></li>
+<li><p>SignedBitVectorType: 符号付き多ビットベクタ型．</p></li>
+<li><p>ArrayType: 同一のデータ型の配列構造</p></li>
+<li><p>RecordType: 異なるデータ型から構成されるレコード構造</p></li>
+</ul>
+<p>現状は ArrayType, RecordType はサポートしていない．</p>
+<p>これらのクラスは rtlgen パッケージには import されていないので
+ユーザーが直接参照することはできない．そのため下記のクラスメソッドを用
+いる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">DataType</span>
+
+<span class="c1"># BitType の生成</span>
+<span class="n">type1</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bit_type</span><span class="p">()</span>
+
+<span class="c1"># BitVectorType の生成</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">type2</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+<span class="c1"># SignedBitVectorType の生成</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">type3</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">signed_bitvector_type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="rtl">
+<h2>2. RTLの構成要素<a class="headerlink" href="#rtl" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>2.1. エンティティ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>エンティティ(entity)は VHDL の entity，Verilog-HDL の module に対応す
+るものであり，
+すべての構成要素を格納する器の役割を持つ．
+また，階層設計でサブモジュールとして用いられる場合の外部インターフェイ
+ス情報としてポートを持つ．</p>
+<p>エンティティを生成するには EntityMgr クラスのインスタンスに対して
+<code class="docutils literal notranslate"><span class="pre">add_entity()</span></code> を呼び出す．
+このときにエンティティ名を引数として渡す必要がある．
+同じ EntityMgr 上ではエンティティ名は重複できない．
+重複した名前のエンティティを作ろうとするとエラーとなる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span>
+
+<span class="c1"># マネージャを生成する．</span>
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+
+<span class="c1"># エンティティを生成する．</span>
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+
+<span class="c1"># 同名のエンティティの生成はエラーとなる．</span>
+<span class="n">ent2</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>この <code class="docutils literal notranslate"><span class="pre">ent1</span></code> に対する VHDL 出力は次の様になる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">ent</span> <span class="ow">is</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">ent</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">ent</span> <span class="ow">is</span>
+<span class="n">begin</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力は次の様になる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">ent</span><span class="p">;</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">ent</span>
+</pre></div>
+</div>
+<p>もちろん，空のエンティティなので空の記述が得られる．</p>
+</section>
+<section id="id3">
+<h3>2.2. ポート<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ポートはエンティティの外部インターフェイスを能わすものであり，
+以下の３種類がある．</p>
+<ul class="simple">
+<li><p>InputPort: 入力ポート</p></li>
+<li><p>OutputPort: 出力ポート</p></li>
+<li><p>InoutPort: 入出力ポート</p></li>
+</ul>
+<p>ポートは前述の任意のデータタイプ(DataType)を持つことができる．
+また，ポートは必ず名前を持たなければならない．
+これはインスタンスとして用いる際のポート割当時に名前を用いるためである．
+通常のVHDLやVerilog-HDLで用いられる順序に基づいた割当は rtlgen では
+行えない仕様となっている．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span><span class="p">,</span> <span class="n">DataType</span>
+
+<span class="c1"># マネージャを生成する．</span>
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+
+<span class="c1"># エンティティを生成する．</span>
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+
+<span class="c1"># 入力ポートの生成</span>
+<span class="c1"># data_type は BitType が仮定される．</span>
+<span class="n">iport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">)</span>
+
+<span class="c1"># 16ビットのビットベクタ型</span>
+<span class="n">bv16</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># 出力ポートの生成</span>
+<span class="n">oport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+
+<span class="c1"># 入出力ポートの生成</span>
+<span class="n">bport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_inout_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;inout1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="n">input1</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">output1</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">inout1</span>  <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">ent</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">ent</span> <span class="ow">is</span>
+<span class="n">begin</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">ent</span><span class="p">(</span>
+  <span class="nb">input</span>         <span class="n">input1</span><span class="p">,</span>
+  <span class="n">output</span> <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">output1</span><span class="p">,</span>
+  <span class="n">output</span>        <span class="n">inout1</span>
+<span class="p">);</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">ent</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>2.3 ネット<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ネットは要素間を接続する配線であり，VHDLの signal，Verilog-HDL の wire
+などに対応する．
+ポートと同様に任意のデータタイプ(DataType)を持つことができる．
+また名前を持つこともできるが，ネットの場合は名前は必須ではない．
+無名のネットは出力時に他の要素を重複しない一意の名前を割り当てられる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span><span class="p">,</span> <span class="n">DataType</span>
+
+<span class="c1"># マネージャを生成する．</span>
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+
+<span class="c1"># エンティティを生成する．</span>
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+
+<span class="c1"># 入力ポートの生成</span>
+<span class="c1"># data_type は BitType が仮定される．</span>
+<span class="n">iport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">)</span>
+
+<span class="c1"># 16ビットのビットベクタ型</span>
+<span class="n">bv16</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">iport2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input2&#39;</span><span class="p">)</span>
+
+<span class="c1"># 出力ポートの生成</span>
+<span class="n">oport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+
+<span class="c1"># 入出力ポートの生成</span>
+<span class="n">bport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_inout_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;inout1&#39;</span><span class="p">)</span>
+
+<span class="c1"># 無名のネットの生成</span>
+<span class="c1"># data_type は BitType が仮定される．</span>
+<span class="n">net1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_net</span><span class="p">()</span>
+
+<span class="c1"># 16ビットの &#39;net1&#39; というネットの生成</span>
+<span class="n">net2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_net</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;net1&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+
+<span class="c1"># iport2 をソースとするネットの生成</span>
+<span class="c1"># data_type は iport2 の data_type が仮定される．</span>
+<span class="n">net3</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_net</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">iport2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="n">input1</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">input2</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">output1</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">inout1</span>  <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">ent</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">signal</span> <span class="n">net2</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net1</span> <span class="p">:</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">signal</span> <span class="n">net3</span> <span class="p">:</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">begin</span>
+  <span class="n">net3</span> <span class="o">&lt;=</span> <span class="n">input2</span><span class="p">;</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">ent</span><span class="p">(</span>
+  <span class="nb">input</span>         <span class="n">input1</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">input2</span><span class="p">,</span>
+  <span class="n">output</span> <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">output1</span><span class="p">,</span>
+  <span class="n">output</span>        <span class="n">inout1</span>
+<span class="p">);</span>
+  <span class="n">wire</span>        <span class="n">net2</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">net1</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">net3</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">net3</span> <span class="o">=</span> <span class="n">input2</span><span class="p">;</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">ent</span>
+</pre></div>
+</div>
+<p>出力例より明らかなように無名のネットは <code class="docutils literal notranslate"><span class="pre">netXX</span></code> という形式で新たな名
+前が割り当てられる(この形式は任意の形式に変更するすることができる)．
+ただし，この例ではすでに <code class="docutils literal notranslate"><span class="pre">net1</span></code> という名前のネットが存在するので
+新規に割り当てられる名前は <code class="docutils literal notranslate"><span class="pre">net2</span></code> , <code class="docutils literal notranslate"><span class="pre">net3</span></code> となっている．</p>
+<p>ネットの生成時に <code class="docutils literal notranslate"><span class="pre">src</span></code> パラメータでソースを指定した場合には
+そのネットに対する割当文が自動生成される．</p>
+<p>上の例の <code class="docutils literal notranslate"><span class="pre">net3</span></code> の記述は以下と等価である．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net3</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_net</span><span class="p">(</span><span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">net3</span><span class="p">,</span> <span class="n">iport2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Entity.connect</span></code> はネットやポートの接続を行う．</p>
+</section>
+<section id="id5">
+<h3>2.4 式<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>VHDLやVerilog-HDLで使用可能な式はほぼ同じ形で使用することができる．</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 10%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>生成用のクラスメソッド</p></th>
+<th class="head"><p>演算子</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_not(opr1)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">~</span></code></p></td>
+<td><p>否定演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_and(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code></p></td>
+<td><p>AND演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_or(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span></code></p></td>
+<td><p>OR演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_xor(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">^</span></code></p></td>
+<td><p>XOR演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_nand(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td></td>
+<td><p>NAND演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_nor(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td></td>
+<td><p>NOR演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_xnor(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td></td>
+<td><p>XNOR演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_uminus(opr1)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-</span></code></p></td>
+<td><p>単項マイナス演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_add(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p></td>
+<td><p>加算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_sub(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-</span></code></p></td>
+<td><p>減算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_mul(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></td>
+<td><p>乗算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_div(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/</span></code></p></td>
+<td><p>除算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_mod(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%</span></code></p></td>
+<td><p>剰余算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_lsft(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td></td>
+<td><p>左シフト演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_rsft(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td></td>
+<td><p>右シフト演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_eq(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">==</span></code></p></td>
+<td><p>等価比較演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_ne(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">!=</span></code></p></td>
+<td><p>非等価比較演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_lt(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></p></td>
+<td><p>小なり比較演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_gt(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code></p></td>
+<td><p>大なり比較演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_le(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code></p></td>
+<td><p>小なりイコール比較演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_ge(opr1,</span> <span class="pre">opr2)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p></td>
+<td><p>大なりイコール比較演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">make_constant(data_type,</span> <span class="pre">val)</span></code></p></td>
+<td></td>
+<td><p>任意のデータタイプの定数</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">make_intconstant(val)</span></code></p></td>
+<td></td>
+<td><p>整数型の定数</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bit_select(primary,</span> <span class="pre">index)</span></code></p></td>
+<td></td>
+<td><p>ビット選択</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">part_select(primary,</span> <span class="pre">left,</span> <span class="pre">right,</span> <span class="pre">direction)</span></code></p></td>
+<td></td>
+<td><p>範囲選択</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">concat(expr_list)</span></code></p></td>
+<td></td>
+<td><p>連結演算</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">multi_concat(rep_num,</span> <span class="pre">expr_list)</span></code></p></td>
+<td></td>
+<td><p>繰り返し連結演算</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">extension(src,</span> <span class="pre">dst_size)</span></code></p></td>
+<td></td>
+<td><p>ビット幅拡張</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sign_extension(src,</span> <span class="pre">dst_size)</span></code></p></td>
+<td></td>
+<td><p>符号付きビット幅拡張</p></td>
+</tr>
+</tbody>
+</table>
+<p>一部の演算は Python の演算子にオーバーロードしているので Python の式と
+同様にインラインで生成することができる．
+各演算の詳細はクラス一覧を参照のこと．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span><span class="p">,</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">Expr</span>
+
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+
+<span class="n">iport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">)</span>
+
+<span class="n">bv16</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">iport2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input2&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+<span class="n">iport3</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input3&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+
+<span class="n">oport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">bv16</span><span class="p">)</span>
+<span class="n">oport2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output2&#39;</span><span class="p">)</span>
+
+<span class="c1"># iport2 と iport3 の16ビットの加算結果を oport1 に接続する．</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">oport1</span><span class="p">,</span> <span class="n">iport2</span> <span class="o">+</span> <span class="n">iport3</span><span class="p">)</span>
+
+<span class="c1"># iport2 の 3 ビット目を選択する．</span>
+<span class="n">bit3</span> <span class="o">=</span> <span class="n">Expr</span><span class="o">.</span><span class="n">bit_select</span><span class="p">(</span><span class="n">iport2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># bit3 と iport1 の XOR を oport2 に接続する．</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">oport2</span><span class="p">,</span> <span class="n">bit3</span> <span class="o">^</span> <span class="n">iport1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="n">input1</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">input2</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">input3</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">output1</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">15</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">output2</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">ent</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">ent</span> <span class="ow">is</span>
+<span class="n">begin</span>
+  <span class="n">output1</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">input2</span> <span class="o">+</span> <span class="n">input3</span><span class="p">);</span>
+  <span class="n">output2</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">input2</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">^</span> <span class="n">input1</span><span class="p">);</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">ent</span><span class="p">(</span>
+  <span class="nb">input</span>         <span class="n">input1</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">input2</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">input3</span><span class="p">,</span>
+  <span class="n">output</span> <span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">output1</span><span class="p">,</span>
+  <span class="n">output</span>        <span class="n">output2</span>
+<span class="p">);</span>
+  <span class="n">assign</span> <span class="n">output1</span> <span class="o">=</span> <span class="p">(</span><span class="n">input2</span> <span class="o">+</span> <span class="n">input3</span><span class="p">);</span>
+  <span class="n">assign</span> <span class="n">output2</span> <span class="o">=</span> <span class="p">(</span><span class="n">input2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">^</span> <span class="n">input1</span><span class="p">);</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">ent</span>
+</pre></div>
+</div>
+<p>この例では <code class="docutils literal notranslate"><span class="pre">+</span></code> と <code class="docutils literal notranslate"><span class="pre">^</span></code> は Python の演算子をそのまま用いて式を作って
+いる．
+ビット選択は Python に相当する演算子がないので <code class="docutils literal notranslate"><span class="pre">Expr.bit_select()</span></code>
+関数で生成している．
+この結果の <code class="docutils literal notranslate"><span class="pre">bit3</span></code> は Python 上では <code class="docutils literal notranslate"><span class="pre">Expr</span></code> というクラス（の派生クラ
+ス）のインスタンスになっている．
+そのため，VHDLやVerilog-HDLの出力では明示的には現れない．</p>
+</section>
+<section id="id6">
+<h3>2.5 インスタンス<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>他のエンティティを部品としてインスタンス化する．
+そのためにはインスタンス化するエンティティを定義しておく必要がある．
+ただし，そのエンティティの内部アーキテクチャの定義は必要はない．
+具体的には <code class="docutils literal notranslate"><span class="pre">Entity.add_inst()</span></code> 関数を用いる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span>
+
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+
+<span class="c1"># 2入力ANDゲートのエンティティを作る．</span>
+<span class="n">and_gate</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;and&#39;</span><span class="p">)</span>
+<span class="n">i1</span> <span class="o">=</span> <span class="n">and_gate</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">)</span>
+<span class="n">i2</span> <span class="o">=</span> <span class="n">and_gate</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input2&#39;</span><span class="p">)</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">and_gate</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>
+<span class="n">and_gate</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">i1</span> <span class="o">&amp;</span> <span class="n">i2</span><span class="p">)</span>
+
+<span class="c1"># ANDゲートを2つつなげたエンティティを作る．</span>
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;ent&#39;</span><span class="p">)</span>
+<span class="n">iport1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">)</span>
+<span class="n">iport2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input2&#39;</span><span class="p">)</span>
+<span class="n">iport3</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input3&#39;</span><span class="p">)</span>
+<span class="n">oport</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output1&#39;</span><span class="p">)</span>
+
+<span class="c1"># ANDゲートのインスタンスを生成する．</span>
+<span class="n">and1</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_inst</span><span class="p">(</span><span class="n">and_gate</span><span class="p">)</span>
+<span class="n">and2</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_inst</span><span class="p">(</span><span class="n">and_gate</span><span class="p">)</span>
+
+<span class="c1"># 接続する．</span>
+<span class="c1"># インスタンスのポートは &#39;.&lt;ポート名&gt;&#39;</span>
+<span class="c1"># でアクセスできる．</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">and1</span><span class="o">.</span><span class="n">input1</span><span class="p">,</span> <span class="n">iport1</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">and1</span><span class="o">.</span><span class="n">input2</span><span class="p">,</span> <span class="n">iport2</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">and2</span><span class="o">.</span><span class="n">input1</span><span class="p">,</span> <span class="n">and1</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">and2</span><span class="o">.</span><span class="n">input2</span><span class="p">,</span> <span class="n">iport3</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">oport</span><span class="p">,</span> <span class="n">and2</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>この例では <code class="docutils literal notranslate"><span class="pre">and_gate</span></code> 内部の結線を行っているが，
+以下の出力例には現れない．
+実際， <code class="docutils literal notranslate"><span class="pre">ent1</span></code> の出力のためだけなら不必要である．</p>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="n">input1</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">input2</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">input3</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">output1</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">ent</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">ent</span> <span class="ow">is</span>
+  <span class="n">component</span> <span class="ow">and</span> <span class="ow">is</span>
+    <span class="n">port</span> <span class="p">(</span>
+      <span class="n">input1</span> <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+      <span class="n">input2</span> <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+      <span class="n">output</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+    <span class="p">);</span>
+  <span class="n">end</span> <span class="n">component</span> <span class="ow">and</span><span class="p">;</span>
+
+  <span class="n">signal</span> <span class="n">net1</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net2</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net3</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net4</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net5</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+  <span class="n">signal</span> <span class="n">net6</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+<span class="n">begin</span>
+    <span class="n">item1</span><span class="p">:</span> <span class="ow">and</span> <span class="n">port</span> <span class="nb">map</span><span class="p">(</span>
+    <span class="n">input1</span> <span class="o">=&gt;</span> <span class="n">net1</span><span class="p">,</span>
+    <span class="n">input2</span> <span class="o">=&gt;</span> <span class="n">net2</span><span class="p">,</span>
+    <span class="n">output</span> <span class="o">=&gt;</span> <span class="n">net3</span>
+  <span class="p">);</span>
+
+  <span class="n">item2</span><span class="p">:</span> <span class="ow">and</span> <span class="n">port</span> <span class="nb">map</span><span class="p">(</span>
+    <span class="n">input1</span> <span class="o">=&gt;</span> <span class="n">net4</span><span class="p">,</span>
+    <span class="n">input2</span> <span class="o">=&gt;</span> <span class="n">net5</span><span class="p">,</span>
+    <span class="n">output</span> <span class="o">=&gt;</span> <span class="n">net6</span>
+  <span class="p">);</span>
+
+  <span class="n">net1</span>    <span class="o">&lt;=</span> <span class="n">input1</span><span class="p">;</span>
+  <span class="n">net2</span>    <span class="o">&lt;=</span> <span class="n">input2</span><span class="p">;</span>
+  <span class="n">net4</span>    <span class="o">&lt;=</span> <span class="n">net3</span><span class="p">;</span>
+  <span class="n">net5</span>    <span class="o">&lt;=</span> <span class="n">input3</span><span class="p">;</span>
+  <span class="n">output1</span> <span class="o">&lt;=</span> <span class="n">net6</span><span class="p">;</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">ent</span><span class="p">(</span>
+  <span class="nb">input</span>  <span class="n">input1</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="n">input2</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="n">input3</span><span class="p">,</span>
+  <span class="n">output</span> <span class="n">output1</span>
+<span class="p">);</span>
+  <span class="n">wire</span> <span class="n">net1</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="n">net2</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="n">net3</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="n">net4</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="n">net5</span><span class="p">;</span>
+  <span class="n">wire</span> <span class="n">net6</span><span class="p">;</span>
+  <span class="ow">and</span> <span class="n">item1</span><span class="p">(</span><span class="o">.</span><span class="n">input1</span><span class="p">(</span><span class="n">net1</span><span class="p">),</span> <span class="o">.</span><span class="n">input2</span><span class="p">(</span><span class="n">net2</span><span class="p">),</span> <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">net3</span><span class="p">));</span>
+  <span class="ow">and</span> <span class="n">item2</span><span class="p">(</span><span class="o">.</span><span class="n">input1</span><span class="p">(</span><span class="n">net4</span><span class="p">),</span> <span class="o">.</span><span class="n">input2</span><span class="p">(</span><span class="n">net5</span><span class="p">),</span> <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">net6</span><span class="p">));</span>
+  <span class="n">assign</span> <span class="n">net1</span>    <span class="o">=</span> <span class="n">input1</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">net2</span>    <span class="o">=</span> <span class="n">input2</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">net4</span>    <span class="o">=</span> <span class="n">net3</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">net5</span>    <span class="o">=</span> <span class="n">input3</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">output1</span> <span class="o">=</span> <span class="n">net6</span><span class="p">;</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">ent</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>2.6 プロセス<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>RTL記述の一般的なスタイルではエンティティ直下には
+if文やcase文のような動作記述を置くことができない．
+そのために「プロセス」と呼ばれる構成要素を用いて
+その中で動作記述を行う．
+そのためのメソッドが <code class="docutils literal notranslate"><span class="pre">Entity.add_process()</span></code> である．
+<code class="docutils literal notranslate"><span class="pre">add_process</span></code> の引数は以下の通り．</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 18%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメータ名</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>str</p></td>
+<td><p>名前</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clock</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>クロック信号線</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clock_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>クロックの極性</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asyncctl</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>非同期制御信号線</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asyncctl_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>非同期制御の極性</p></td>
+</tr>
+</tbody>
+</table>
+<p>すべてのパラメータは名前付きのオプション引数である．
+クロックと非同期制御が省略された場合には組み合わせ回路用の
+プロセスが生成される．
+このメソッドは <code class="docutils literal notranslate"><span class="pre">Process</span></code> クラスのオブジェクトを返す．</p>
+<p><code class="docutils literal notranslate"><span class="pre">Process</span></code> クラスのメンバは以下の通り</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 18%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>メンバ名</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">add_async_stmt(stmt)</span></code></p></td>
+<td><p>関数</p></td>
+<td><p>非同期制御ブロックにステートメントを追加する</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">add_body_stmt(stmt)</span></code></p></td>
+<td><p>関数</p></td>
+<td><p>本体ブロックにステートメントを追加する．</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clock</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>クロック信号線</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clock_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>クロックの極性</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asyncctl</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>非同期制御信号線</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asyncctl_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>非同期制御の極性</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asyncctl_body</span></code></p></td>
+<td><p>StatementBlock</p></td>
+<td><p>非同期制御ブロック</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">body</span></code></p></td>
+<td><p>StatementBlock</p></td>
+<td><p>本体ブロック</p></td>
+</tr>
+</tbody>
+</table>
+<p>クラス <code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code> はステートメントのリストを保持するクラスであ
+る．
+通常はこのクラスに対してステートメントを追加することになる．</p>
+</section>
+<section id="id8">
+<h3>2.7 組み合わせ回路用プロセス<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>前述のようにクロックと非同期制御を省略すると組み合わせ回路用のプロセス
+が生成されるが，
+その場合， <code class="docutils literal notranslate"><span class="pre">Process</span></code> クラスそのものは不要であり，
+<code class="docutils literal notranslate"><span class="pre">Process.body</span></code> に対してステートメントの追加を行うだけなので，
+<code class="docutils literal notranslate"><span class="pre">Entity.add_comb_body()</span></code> を用いるとプロセスの生成を行い，
+その本体ブロックを返り値として得ることができる．</p>
+</section>
+<section id="id9">
+<h3>2.8 ステートメント<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>プロセス内の動作記述を行うための構成要素でる．
+クラス <code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code> のメソッドを用いて生成する．
+なお， <code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code> は <code class="docutils literal notranslate"><span class="pre">Process</span></code> や <code class="docutils literal notranslate"><span class="pre">Statement</span></code>
+内部に生成されるものでこのクラスを直接生成することはない．</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>メソッド名</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">add_assign(lhs,</span> <span class="pre">rhs,</span> <span class="pre">blocking)</span></code></p></td>
+<td><p>代入文を追加する．</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">add_if(cond)</span></code></p></td>
+<td><p>IF文を追加する．</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">add_case(cond)</span></code></p></td>
+<td><p>CASE文を追加する．</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">add_assign</span></code> の <code class="docutils literal notranslate"><span class="pre">lhs</span></code> ， <code class="docutils literal notranslate"><span class="pre">rhs</span></code> は <code class="docutils literal notranslate"><span class="pre">Expr</span></code> タイプのオブジェクト
+でそれぞれ，左辺式，右辺式を指定する．
+<code class="docutils literal notranslate"><span class="pre">blocking</span></code> は <code class="docutils literal notranslate"><span class="pre">bool</span></code> 型の変数で <code class="docutils literal notranslate"><span class="pre">True</span></code> の時にブロッキング代入文
+を， <code class="docutils literal notranslate"><span class="pre">False</span></code> の時にはノンブロッキング代入文を生成する．</p>
+<p><code class="docutils literal notranslate"><span class="pre">add_if</span></code> の <code class="docutils literal notranslate"><span class="pre">cond</span></code> は <code class="docutils literal notranslate"><span class="pre">Expr</span></code> タイプのオブジェクトで，
+IF文の条件式を指定する．
+この時点ではTHEN節もELSE節も空の状態である．
+THEN節とELSE節はそれぞれ <code class="docutils literal notranslate"><span class="pre">If.then_body</span></code> ，
+<code class="docutils literal notranslate"><span class="pre">If.else_body</span></code> でアクセスすることができる．
+これらは <code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code> タイプのオブジェクトなので
+前述のメソッドを用いてステートメントを追加することができる．</p>
+<p><code class="docutils literal notranslate"><span class="pre">addCase</span></code> の <code class="docutils literal notranslate"><span class="pre">cond</span></code> は <code class="docutils literal notranslate"><span class="pre">Expr</span></code> タイプのオブジェクトで，
+CASE文の条件式を指定する．
+この時点ではCASE文の本体は空の状態である．
+本体にラベルを追加するには <code class="docutils literal notranslate"><span class="pre">Case.add_label(label)</span></code>
+を用いる． <code class="docutils literal notranslate"><span class="pre">label</span></code> はラベルを表す <code class="docutils literal notranslate"><span class="pre">Expr</span></code>
+タイプのオブジェクトを指定する．
+このメソッドはこのラベルに対応するブロックの
+<code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code> オブジェクトを返す．</p>
+</section>
+</section>
+<section id="id10">
+<h2>3. 拡張型の構成要素<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>前述の構成要素を組み合わせることで合成可能なRTL記述をほぼ
+自由に生成することができるが，プロセスとステートメントの記述方法
+は少し煩雑である．
+そこでよく用いる記述を拡張型の構成要素として用意してる．
+なお，これらの拡張型はすべて RTL-gen の構成要素を用いて記述されている．
+これ以外にも同様に拡張型の構成要素を追加することは容易に行える．</p>
+<section id="d-ff">
+<h3>3.1 D-FF<a class="headerlink" href="#d-ff" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>D-FF に対応する要素を <code class="docutils literal notranslate"><span class="pre">Entity.add_dff()</span></code> で追加することができる．
+<code class="docutils literal notranslate"><span class="pre">add_dff</span></code> の引数は以下の通り．</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 18%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメータ名</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>str</p></td>
+<td><p>名前</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">data_in</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>データ入力</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">data_type</span></code></p></td>
+<td><p>DatType</p></td>
+<td><p>データ入出力の型</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clock</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>クロック入力</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clock_edge</span></code></p></td>
+<td><p>str</p></td>
+<td><p>クロックのアクティブエッジ</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>リセット入力</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reset_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>リセットの極性</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reset_val</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>リセット値</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable</span></code></p></td>
+<td><p>Expr</p></td>
+<td><p>イネーブル入力</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_pol</span></code></p></td>
+<td><p>str</p></td>
+<td><p>イネーブルの極性</p></td>
+</tr>
+</tbody>
+</table>
+<p>これらのパラメータのうち， <code class="docutils literal notranslate"><span class="pre">data_in</span></code> か <code class="docutils literal notranslate"><span class="pre">data_type</span></code>
+のいずれか一方は必ず指定する必要がある．
+また，<code class="docutils literal notranslate"><span class="pre">clock</span></code> は省略されても端子は生成されて未接続となる．
+それ以外の <code class="docutils literal notranslate"><span class="pre">reset</span></code> と <code class="docutils literal notranslate"><span class="pre">enable</span></code> は省略された場合には
+それぞれの端子を持たない要素が生成される．</p>
+<p><code class="docutils literal notranslate"><span class="pre">clock_edge</span></code> には &quot;positive&quot; か &quot;negative&quot; の文字列を与える．
+それぞれ，立ち上がりエッジ，立ち下がりエッジを表す．
+省略時には &quot;positive&quot; が指定されたものとみなす．</p>
+<p><code class="docutils literal notranslate"><span class="pre">reset_pol</span></code> も &quot;positive&quot; か &quot;negative&quot; の文字列を与える．
+省略時のには &quot;positive&quot; が指定されたものとみなす．
+<code class="docutils literal notranslate"><span class="pre">reset_val</span></code> にはリセット時の値を与える．
+<code class="docutils literal notranslate"><span class="pre">reset</span></code> が指定された場合， <code class="docutils literal notranslate"><span class="pre">reset_val</span></code> は必須である．</p>
+<p><code class="docutils literal notranslate"><span class="pre">enable_pol</span></code> も &quot;positive&quot; か &quot;negative&quot; の文字列を与える．
+省略時のには &quot;positive&quot; が指定されたものとみなす．</p>
+<p><code class="docutils literal notranslate"><span class="pre">add_dff()</span></code> は生成した D-FF のインスタンスを表す Python オブジェクト
+を返す．この D-FF の入出力端子はそれぞれ
+<code class="docutils literal notranslate"><span class="pre">.data_in</span></code> , <code class="docutils literal notranslate"><span class="pre">.clock</span></code> , <code class="docutils literal notranslate"><span class="pre">.reset</span></code> , <code class="docutils literal notranslate"><span class="pre">.enable</span></code> , <code class="docutils literal notranslate"><span class="pre">.q</span></code>
+でアクセスできる．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span>
+
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+<span class="n">ent</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;dff_test1&#39;</span><span class="p">)</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;clock&#39;</span><span class="p">)</span>
+<span class="n">data_in</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data_in&#39;</span><span class="p">)</span>
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data_out&#39;</span><span class="p">)</span>
+<span class="n">dff</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">add_dff</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">clock</span><span class="p">,</span> <span class="n">clock_edge</span><span class="o">=</span><span class="s1">&#39;positive&#39;</span><span class="p">,</span>
+                      <span class="n">data_in</span><span class="o">=</span><span class="n">data_in</span><span class="p">)</span>
+<span class="n">ent</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">data_out</span><span class="p">,</span> <span class="n">dff</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>この例ではデータ入出力とクロックのみをもつ簡単な D-FF
+を生成している．</p>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">dff_test1</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="n">clock</span>    <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">data_in</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">data_out</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">dff_test1</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">dff_test1</span> <span class="ow">is</span>
+  <span class="n">signal</span> <span class="n">net1</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
+<span class="n">begin</span>
+  <span class="n">item1</span><span class="p">:</span> <span class="n">process</span> <span class="p">(</span> <span class="n">clock</span> <span class="p">)</span> <span class="n">begin</span>
+    <span class="k">if</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clock</span><span class="p">)</span> <span class="n">then</span>
+      <span class="n">net1</span> <span class="o">&lt;=</span> <span class="n">data_in</span><span class="p">;</span>
+    <span class="n">end</span> <span class="k">if</span><span class="p">;</span>
+  <span class="n">end</span> <span class="n">process</span> <span class="n">item1</span><span class="p">;</span>
+
+  <span class="n">data_out</span> <span class="o">&lt;=</span> <span class="n">net1</span><span class="p">;</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">dff_test1</span><span class="p">(</span>
+  <span class="nb">input</span>  <span class="n">clock</span><span class="p">,</span>
+  <span class="nb">input</span>  <span class="n">data_in</span><span class="p">,</span>
+  <span class="n">output</span> <span class="n">data_out</span>
+<span class="p">);</span>
+  <span class="n">reg</span> <span class="n">net1</span><span class="p">;</span>
+  <span class="n">always</span> <span class="o">@</span> <span class="p">(</span> <span class="n">posedge</span> <span class="n">clock</span> <span class="p">)</span> <span class="n">begin</span>
+    <span class="n">net1</span> <span class="o">&lt;=</span> <span class="n">data_in</span><span class="p">;</span>
+  <span class="n">end</span>
+
+  <span class="n">assign</span> <span class="n">data_out</span> <span class="o">=</span> <span class="n">net1</span><span class="p">;</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">dff_test1</span>
+</pre></div>
+</div>
+</section>
+<section id="lookup-table">
+<h3>2.7 LookUp Table<a class="headerlink" href="#lookup-table" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>表引きで入力に対応した出力を返す組み合わせ回路を表す構成要素は
+<code class="docutils literal notranslate"><span class="pre">Entity.add_lut</span></code> で追加することができる．</p>
+<p>パラメータは以下の通り．</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメータ名</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>input_bw</p></td>
+<td><p>int</p></td>
+<td><p>入力のビット幅</p></td>
+</tr>
+<tr class="row-odd"><td><p>data_type</p></td>
+<td><p>DataType</p></td>
+<td><p>出力の型</p></td>
+</tr>
+<tr class="row-even"><td><p>data_list</p></td>
+<td><p>list(Expr, Expr)</p></td>
+<td><p>表データのリスト</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">data_list</span></code> は <code class="docutils literal notranslate"><span class="pre">(入力値,</span> <span class="pre">出力値)</span></code> のリストである．
+順序に関してはなんの制約もない．
+回路として正しく動作するためにはすべての入力値に対して
+対応する出力値を指定する必要があるが，
+rtlgen ではデータの正当性の検証は行っていない．</p>
+<p><code class="docutils literal notranslate"><span class="pre">data_list</span></code> を与えなかった場合は <code class="docutils literal notranslate"><span class="pre">Lut.add_data(ival,</span> <span class="pre">oval)</span></code>
+でデータを追加する．
+ここで <code class="docutils literal notranslate"><span class="pre">ival</span></code> , <code class="docutils literal notranslate"><span class="pre">oval</span></code> はそれぞれ入力値，出力値を表す．</p>
+<p>以下は3ビットアドレスデコーダーの例である．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtlgen</span> <span class="kn">import</span> <span class="n">EntityMgr</span><span class="p">,</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">Expr</span>
+
+<span class="n">mgr</span> <span class="o">=</span> <span class="n">EntityMgr</span><span class="p">()</span>
+
+<span class="n">ent1</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="s1">&#39;lut1&#39;</span><span class="p">)</span>
+
+<span class="n">ibw</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">obw</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">input_type</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="n">ibw</span><span class="p">)</span>
+<span class="n">output_type</span> <span class="o">=</span> <span class="n">DataType</span><span class="o">.</span><span class="n">bitvector_type</span><span class="p">(</span><span class="n">obw</span><span class="p">)</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_input_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_output_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">output_type</span><span class="p">)</span>
+
+<span class="n">lut</span> <span class="o">=</span> <span class="n">ent1</span><span class="o">.</span><span class="n">add_lut</span><span class="p">(</span><span class="n">input_bw</span><span class="o">=</span><span class="n">ibw</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">output_type</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">ibw</span><span class="p">):</span>
+    <span class="n">indata</span> <span class="o">=</span> <span class="n">Expr</span><span class="o">.</span><span class="n">make_constant</span><span class="p">(</span><span class="n">data_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">outdata</span> <span class="o">=</span> <span class="n">Expr</span><span class="o">.</span><span class="n">make_constant</span><span class="p">(</span><span class="n">data_type</span><span class="o">=</span><span class="n">output_type</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span>
+    <span class="n">lut</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">indata</span><span class="p">,</span> <span class="n">outdata</span><span class="p">)</span>
+
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">lut</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span>
+<span class="n">ent1</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">lut</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>VHDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">library</span> <span class="n">IEEE</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">IEEE</span><span class="o">.</span><span class="n">std_logic_1164</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+
+<span class="n">entity</span> <span class="n">lut1</span> <span class="ow">is</span>
+  <span class="n">port</span> <span class="p">(</span>
+    <span class="nb">input</span>  <span class="p">:</span> <span class="ow">in</span>  <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">2</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">output</span> <span class="p">:</span> <span class="n">out</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">7</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">);</span>
+<span class="n">end</span> <span class="n">entity</span> <span class="n">lut1</span><span class="p">;</span>
+
+<span class="n">architecture</span> <span class="n">rtl</span> <span class="n">of</span> <span class="n">lut1</span> <span class="ow">is</span>
+  <span class="n">signal</span> <span class="n">net1</span> <span class="p">:</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">2</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">signal</span> <span class="n">net2</span> <span class="p">:</span> <span class="n">std_logic_vector</span><span class="p">(</span><span class="mi">7</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">begin</span>
+  <span class="n">item1</span><span class="p">:</span> <span class="n">process</span> <span class="p">(</span> <span class="n">net1</span> <span class="p">)</span> <span class="n">begin</span>
+    <span class="n">case</span> <span class="n">net1</span> <span class="ow">is</span>
+      <span class="n">when</span> <span class="s2">&quot;000&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00000001&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;001&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00000010&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;010&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00000100&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;011&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00001000&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;100&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00010000&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;101&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;00100000&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;110&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;01000000&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="s2">&quot;111&quot;</span>  <span class="o">=&gt;</span> <span class="n">net2</span> <span class="o">&lt;=</span> <span class="s2">&quot;10000000&quot;</span><span class="p">;</span>
+      <span class="n">when</span> <span class="n">others</span> <span class="o">=&gt;</span> <span class="n">null</span><span class="p">;</span>
+    <span class="n">end</span> <span class="n">case</span><span class="p">;</span>
+  <span class="n">end</span> <span class="n">process</span> <span class="n">item1</span><span class="p">;</span>
+
+  <span class="n">net1</span>   <span class="o">&lt;=</span> <span class="nb">input</span><span class="p">;</span>
+  <span class="n">output</span> <span class="o">&lt;=</span> <span class="n">net2</span><span class="p">;</span>
+<span class="n">end</span> <span class="n">architecture</span> <span class="n">rtl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Verilog-HDL 出力</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">lut1</span><span class="p">(</span>
+  <span class="nb">input</span>  <span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="nb">input</span><span class="p">,</span>
+  <span class="n">output</span> <span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">output</span>
+<span class="p">);</span>
+  <span class="n">wire</span> <span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">net1</span><span class="p">;</span>
+  <span class="n">reg</span>  <span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">net2</span><span class="p">;</span>
+  <span class="n">always</span> <span class="p">(</span> <span class="o">*</span> <span class="p">)</span> <span class="n">begin</span>
+    <span class="n">case</span> <span class="p">(</span> <span class="n">net1</span> <span class="p">)</span>
+      <span class="mi">3</span><span class="s1">&#39;b000:  net2 &lt;= 8&#39;</span><span class="n">b00000001</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b001:  net2 &lt;= 8&#39;</span><span class="n">b00000010</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b010:  net2 &lt;= 8&#39;</span><span class="n">b00000100</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b011:  net2 &lt;= 8&#39;</span><span class="n">b00001000</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b100:  net2 &lt;= 8&#39;</span><span class="n">b00010000</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b101:  net2 &lt;= 8&#39;</span><span class="n">b00100000</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b110:  net2 &lt;= 8&#39;</span><span class="n">b01000000</span><span class="p">;</span>
+      <span class="mi">3</span><span class="s1">&#39;b111:  net2 &lt;= 8&#39;</span><span class="n">b10000000</span><span class="p">;</span>
+      <span class="n">default</span><span class="p">:</span> <span class="p">;;</span>
+    <span class="n">endcase</span>
+  <span class="n">end</span>
+
+  <span class="n">assign</span> <span class="n">net1</span>   <span class="o">=</span> <span class="nb">input</span><span class="p">;</span>
+  <span class="n">assign</span> <span class="n">output</span> <span class="o">=</span> <span class="n">net2</span><span class="p">;</span>
+<span class="n">endmodule</span> <span class="o">//</span> <span class="n">lut1</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">目次</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">rtlgen の使い方</a><ul>
+<li><a class="reference internal" href="#id1">1. データ型</a></li>
+<li><a class="reference internal" href="#rtl">2. RTLの構成要素</a><ul>
+<li><a class="reference internal" href="#id2">2.1. エンティティ</a></li>
+<li><a class="reference internal" href="#id3">2.2. ポート</a></li>
+<li><a class="reference internal" href="#id4">2.3 ネット</a></li>
+<li><a class="reference internal" href="#id5">2.4 式</a></li>
+<li><a class="reference internal" href="#id6">2.5 インスタンス</a></li>
+<li><a class="reference internal" href="#id7">2.6 プロセス</a></li>
+<li><a class="reference internal" href="#id8">2.7 組み合わせ回路用プロセス</a></li>
+<li><a class="reference internal" href="#id9">2.8 ステートメント</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10">3. 拡張型の構成要素</a><ul>
+<li><a class="reference internal" href="#d-ff">3.1 D-FF</a></li>
+<li><a class="reference internal" href="#lookup-table">2.7 LookUp Table</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>前のトピックへ</h4>
+    <p class="topless"><a href="index.html"
+                          title="前の章へ">rtlgen: RTL記述生成器</a></p>
+  </div>
+  <div>
+    <h4>次のトピックへ</h4>
+    <p class="topless"><a href="modules/classes.html"
+                          title="次の章へ">クラス一覧</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/getting_started.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="modules/classes.html" title="クラス一覧"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="rtlgen: RTL記述生成器"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rtlgen の使い方</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Yusuke Matsunaga.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>
