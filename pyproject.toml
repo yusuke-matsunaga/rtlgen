@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rtlgen"
+authors = [
+  { name = "Yusuke Matsunaga", email = "yusuke.matsunaga2010@gmail.com" },
+]
+description = "RTL generator"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "numpy"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dynamic = ["version"]
+
+# バージョンの自動生成
+[tool.hatch.version]
+source = "vcs"
+build.hooks.vcs.version-file = "rtlgen/version.py"
