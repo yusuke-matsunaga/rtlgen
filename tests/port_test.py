@@ -7,14 +7,13 @@
 """
 
 import pytest
-from rtlgen import InputPort, OutputPort, InoutPort
-from rtlgen import BitType
-from rtlgen.port import PortType
+from rtlgen.port import InputPort, OutputPort, InoutPort, PortType
+from rtlgen import DataType
 
 
 @pytest.fixture
 def bit_type():
-    return BitType()
+    return DataType.bit_type()
 
 
 def test_input_port1(bit_type):

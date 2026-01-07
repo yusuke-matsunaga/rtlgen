@@ -33,12 +33,12 @@ class VhdlWriter(WriterBase):
         self.write_line('')
 
         # エンティティの出力
-        header = 'entity {} is'.format(entity.name)
-        footer = 'end entity {};\n'.format(entity.name)
+        header = f'entity {entity.name} is'
+        footer = f'end entity {entity.name};\n'
         with SimpleBlock(self, header, footer):
             if entity.port_num > 0:
                 # ポートリストの出力
-                lines = list()
+                lines = []
                 for port in entity.port_gen:
                     if port.is_input:
                         port_type = 'in'
@@ -59,20 +59,19 @@ class VhdlWriter(WriterBase):
 
         # アーキテクチャの出力
         arch_name = 'rtl'
-        arch_head = 'architecture {} of {} is'.format(
-            arch_name, entity.name)
+        arch_head = f'architecture {arch_name} of {entity.name} is'
         with SimpleBlock(self, arch_head, None):
             # インスタンス記述で用いるコンポーネント宣言
-            comp_dict = dict()
+            comp_dict = {}
             for item in entity.item_gen:
                 if item.is_inst:
                     if item.entity.name not in comp_dict:
                         comp_dict[item.entity.name] = item.entity
             for name in sorted(comp_dict.keys()):
                 component = comp_dict[name]
-                with SimpleBlock(self, 'component {} is'.format(name),
-                                 'end component {};\n'.format(name)):
-                    lines = list()
+                with SimpleBlock(self, f'component {name} is',
+                                 f'end component {name};\n'):
+                    lines = []
                     for port in component.port_gen:
                         if port.is_input:
                             port_type = 'in'
@@ -90,7 +89,7 @@ class VhdlWriter(WriterBase):
                         self.write_lines(lines, end=';', last_end='')
 
             # ネット宣言の出力
-            lines = list()
+            lines = []
             for net in entity.net_gen:
                 data_type_str = VhdlWriter.__data_type_to_str(net.data_type)
                 line = ['signal', net.name, ':', data_type_str]
@@ -99,13 +98,13 @@ class VhdlWriter(WriterBase):
 
         # アーキテクチャ記述の本体
         with SimpleBlock(self, 'begin',
-                         'end architecture {};'.format(arch_name)):
+                         f'end architecture {arch_name};'):
             # 要素の出力
             for item in entity.item_gen:
                 item.gen_vhdl(self)
 
             # signal 代入文の出力
-            lines = list()
+            lines = []
             for ca in entity.cont_assign_gen:
                 lhs_str = ca.lhs.vhdl_str
                 rhs_str = ca.rhs.vhdl_str
@@ -123,9 +122,9 @@ class VhdlWriter(WriterBase):
         if data_type.is_bit_type:
             return 'std_logic'
         elif data_type.is_bitvector_type:
-            return 'std_logic_vector({} downto 0)'.format(data_type.size - 1)
+            return f'std_logic_vector({data_type.size - 1} downto 0)'
         elif data_type.is_signedbitvector_type:
-            return 'signed({} downto 0)'.format(data_type.size - 1)
+            return f'signed({data_type.size - 1} downto 0)'
         else:
             # それ以外のタイプは使えない．
             assert False

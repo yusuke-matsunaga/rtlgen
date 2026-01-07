@@ -32,9 +32,9 @@ class Lut(Item):
                  input_bw=None,
                  input=None,
                  data_type,
-                 data_list=None):
+                 data_list=[]):
         super().__init__(parent, name=name)
-        self.__data_list = list()
+        self.__data_list = []
         if input is None:
             assert input_bw is not None
             ibv = BitVectorType(input_bw)
@@ -83,14 +83,13 @@ class Lut(Item):
         header = "always @* begin"
         footer = "end\n"
         with SimpleBlock(writer, header, footer):
-            header = 'case ( {} )'.format(self.__input.verilog_str)
+            header = f'case ( {self.__input.verilog_str} )'
             footer = 'endcase'
             with SimpleBlock(writer, header, footer):
-                lines = list()
+                lines = []
                 for indata, outdata in self.__data_list:
-                    line = ['{}:'.format(indata.verilog_str),
-                            '{} <= {}'.format(self.__output.verilog_str,
-                                              outdata.verilog_str)]
+                    line = [f'{indata.verilog_str}:'
+                            f'{self.__output.verilog_str} <= {outdata.verilog_str}']
                     lines.append(line)
                 line = ['default:', '']
                 lines.append(line)
@@ -101,18 +100,17 @@ class Lut(Item):
 
         :param VhdlWriter writer: VHDL出力器
         """
-        header = '{}: process ( {} ) begin'.format(
-            self.name, self.__input.vhdl_str)
-        footer = 'end process {};\n'.format(self.name)
+        header = f'{self.name}: process ( {self.__input.vhdl_str} ) begin'
+        footer = f'end process {self.name};\n'
         with SimpleBlock(writer, header, footer):
-            header = 'case {} is'.format(self.__input.vhdl_str)
+            header = f'case {self.__input.vhdl_str} is'
             footer = 'end case;'
             with SimpleBlock(writer, header, footer):
-                lines = list()
+                lines = []
                 for indata, outdata in self.__data_list:
-                    line = ['when {}'.format(indata.vhdl_str),
-                            '=>', '{} <= {}'.format(self.__output.vhdl_str,
-                                                    outdata.vhdl_str)]
+                    line = [f'when {indata.vhdl_str}',
+                            '=>',
+                            f'{self.__output.vhdl_str} <= {outdata.vhdl_str}']
                     lines.append(line)
                 line = ['when others', '=>', 'null']
                 lines.append(line)
@@ -122,7 +120,7 @@ class Lut(Item):
 def add_lut(self, *,
             input_bw=None, input=None,
             data_type,
-            data_list=None):
+            data_list=[]):
     lut = Lut(self, input_bw=input_bw, input=input,
               data_type=data_type,
               data_list=data_list)

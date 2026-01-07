@@ -4,7 +4,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Inst &#8212; RTL-gen 1.0.0 ドキュメント</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
@@ -44,16 +46,16 @@
           <div class="body" role="main">
             
   <section id="inst">
-<span id="id1"></span><h1>Inst<a class="headerlink" href="#inst" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>Inst<a class="headerlink" href="#inst" title="この見出しへのパーマリンク">¶</a></h1>
 <p>コンポーネントインスタンスを表す定義</p>
 <dl class="field-list simple">
-<dt class="field-odd">file</dt>
+<dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p>inst.py</p>
 </dd>
-<dt class="field-even">author</dt>
+<dt class="field-even">author<span class="colon">:</span></dt>
 <dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
 </dd>
-<dt class="field-odd">copyright</dt>
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
 <dd class="field-odd"><ol class="upperalpha simple" start="3">
 <li><p>2021, 2022 Yusuke Matsunaga, All rights reserved.</p></li>
 </ol>
@@ -62,14 +64,14 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.inst.</span></span><span class="sig-name descname"><span class="pre">Inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.item.Item</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></p>
 <p>コンポーネントインスタンスを表す定義</p>
 <dl class="py property">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">entity</span></span></dt>
 <dd><p>エンティティを返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Entity</p>
 </dd>
 </dl>
@@ -80,7 +82,7 @@
 <span class="sig-name descname"><span class="pre">gen_verilog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Verilog-HDL記述を生成する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>writer</strong> (<em>VerilogWriter</em>) -- Verilog-DL出力器</p>
 </dd>
 </dl>
@@ -91,7 +93,7 @@
 <span class="sig-name descname"><span class="pre">gen_vhdl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>VHDL記述を生成する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>writer</strong> (<em>VhdlWriter</em>) -- VHDL出力器</p>
 </dd>
 </dl>
@@ -107,13 +109,13 @@
 <span class="sig-name descname"><span class="pre">port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>pos 番目のポートを返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Port|Net, Port</p>
 </dd>
-<dt class="field-odd">Rise</dt>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
 <dd class="field-odd"><p>AssertError (pos が範囲外の時)</p>
 </dd>
 </dl>
@@ -131,7 +133,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port_num</span></span></dt>
 <dd><p>ポート数を返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -141,10 +143,10 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">rtlgen.inst.</span></span><span class="sig-name descname"><span class="pre">add_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">rtlgen.inst.</span></span><span class="sig-name descname"><span class="pre">add_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>エンティティにインスタンスを追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>entity</strong> (<em>Entity</em>) -- 元のエンティティ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- 名前</p></li>
@@ -188,7 +190,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -212,7 +214,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Yusuke Matsunaga.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

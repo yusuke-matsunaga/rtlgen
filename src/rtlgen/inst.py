@@ -24,8 +24,8 @@ class Inst(Item):
         """
         super().__init__(parent, name=name)
         self.__entity = entity
-        self.__net_list = list()
-        self.__port_dict = dict()
+        self.__net_list = []
+        self.__port_dict = {}
         for iport in entity.port_gen:
             net = self.add_net(iport.data_type)
             self.__net_list.append(net)
@@ -77,7 +77,7 @@ class Inst(Item):
         if name in self.__port_dict:
             return self.__port_dict[name]
         else:
-            emsg = '{}: Illegal port name'.format(name)
+            emsg = f'{name}: Illegal port name'
             raise RtlError(emsg)
 
     def gen_verilog(self, writer):
@@ -85,10 +85,10 @@ class Inst(Item):
 
         :param VerilogWriter writer: Verilog-DL出力器
         """
-        line_str = '{} {}('.format(self.entity.name, self.name)
+        line_str = f'{self.entity.name} {self.name}('
         comma = ''
         for oport, iport in self.port_gen:
-            line_str += '{}.{}({})'.format(comma, iport.name, oport.name)
+            line_str += f'{comma}.{iport.name}({oport.name})'
             comma = ', '
         line_str += ');'
         writer.write_line(line_str)
@@ -99,9 +99,9 @@ class Inst(Item):
 
         :param VhdlWriter writer: VHDL出力器
         """
-        header = '{}: {} port map('.format(self.name, self.entity.name)
+        header = f'{self.name}: {self.entity.name} port map('
         footer = ');\n'
-        lines = list()
+        lines = []
         for oport, iport in self.port_gen:
             name = oport.name
             line = [iport.name, '=>', name]
@@ -110,13 +110,13 @@ class Inst(Item):
             writer.write_lines(lines, end=',', last_end='')
 
 
-def add_inst(self, entity, *, name=None):
+def add_inst(parent, entity, *, name=None):
     """エンティティにインスタンスを追加する．
 
     :param Entity entity: 元のエンティティ
     :param str name: 名前
     """
-    inst = Inst(self, entity, name=name)
+    inst = Inst(parent, entity, name=name)
     return inst
 
 

@@ -4,7 +4,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Entity &#8212; RTL-gen 1.0.0 ドキュメント</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
@@ -44,16 +46,16 @@
           <div class="body" role="main">
             
   <section id="entity">
-<span id="id1"></span><h1>Entity<a class="headerlink" href="#entity" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>Entity<a class="headerlink" href="#entity" title="この見出しへのパーマリンク">¶</a></h1>
 <p>Entity の定義</p>
 <dl class="field-list simple">
-<dt class="field-odd">file</dt>
+<dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p>entity.py</p>
 </dd>
-<dt class="field-even">author</dt>
+<dt class="field-even">author<span class="colon">:</span></dt>
 <dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
 </dd>
-<dt class="field-odd">copyright</dt>
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
 <dd class="field-odd"><ol class="upperalpha simple" start="3">
 <li><p>2021, 2022 Yusuke Matsunaga, All rights reserved.</p></li>
 </ol>
@@ -65,7 +67,7 @@
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Entity を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- 名前</p>
 </dd>
 </dl>
@@ -74,14 +76,34 @@
 内部の構造を表すアイテムのリストを持つ．</p>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_comb_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">add_clocked_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asyncctl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asyncctl_pol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>クロックに同期したプロセスを追加する．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) -- 名前</p></li>
+<li><p><strong>clock</strong> (<em>Expr</em>) -- クロック信号線</p></li>
+<li><p><strong>clock_pol</strong> (<em>str</em>) -- クロックの極性 (&quot;positive&quot;/&quot;negative&quot;)</p></li>
+<li><p><strong>asyncctl</strong> (<em>Expr</em>) -- 非同期制御信号線</p></li>
+<li><p><strong>asyncctl_pol</strong> (<em>str</em>) -- 非同期制御の極性 (&quot;positive&quot;/&quot;negative&quot;)</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>生成したプロセスを返す．</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">add_comb_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>組み合わせ回路用のプロセスを作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- 名前</p>
 </dd>
-<dt class="field-even">戻り値</dt>
-<dd class="field-even"><p>本体のステートメントブロックを返す．</p>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>生成したプロセスを返す．</p>
 </dd>
 </dl>
 </dd></dl>
@@ -91,7 +113,7 @@
 <span class="sig-name descname"><span class="pre">add_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>遅延ユニットを作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_in</strong> (<em>Expr</em>) -- データ入力</p></li>
 <li><p><strong>delay</strong> (<em>int</em>) -- 遅延値</p></li>
@@ -110,7 +132,7 @@
 <span class="sig-name descname"><span class="pre">add_dff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_in=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type=&lt;class</span> <span class="pre">'rtlgen.data_type.BitType'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pol=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_val=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_pol=None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Dff を追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) -- 名前</p></li>
 <li><p><strong>data_in</strong> (<em>Expr</em>) -- データ入力</p></li>
@@ -131,17 +153,17 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_inout_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type=&lt;rtlgen.data_type.BitType</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src=None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">add_inout_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>入出力ポートを追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) -- ポート名(名前付きの引数)</p></li>
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ(名前付きのオプション引数)</p></li>
 <li><p><strong>src</strong> (<em>Expr</em>) -- ソース(名前付きのオプション引数)</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>生成されたポートを返す．</p>
 </dd>
 </dl>
@@ -152,13 +174,13 @@
 <span class="sig-name descname"><span class="pre">add_input_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type=&lt;rtlgen.data_type.BitType</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>入力ポートを追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) -- ポート名(名前付きの引数)</p></li>
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ(名前付きのオプション引数)</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>生成されたポートを返す．</p>
 </dd>
 </dl>
@@ -169,7 +191,7 @@
 <span class="sig-name descname"><span class="pre">add_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>エンティティにインスタンスを追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>entity</strong> (<em>Entity</em>) -- 元のエンティティ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- 名前</p></li>
@@ -180,7 +202,30 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_lut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_bw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">add_linear_fsm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>線形に遷移する有限状態機械を追加する．
+:param Entity ent:       エンティティ
+:param int    k:         running 状態数
+:param Net    clock:     クロック信号名
+:param str    clock_pol: クロック信号のアクティブエッジ('positive'か'negative')
+:param Net    reset:     リセット信号
+:param str    reset_pol: リセット信号のアクティブエッジ('positive'か'negative')
+:param Net    start:     スタート信号</p>
+<p>結果として (running, output) を返す．
+仕様は以下の通り．
+* wire                running: running 状態を表すフラグ
+* wire [log_k - 1: 0] count:   running 状態中のカウント</p>
+<ul class="simple">
+<li><p>k個の running state と一つの idle state を持つ．</p></li>
+<li><p>start 信号で running state に遷移する．</p></li>
+<li><p>running state を K回遷移すると idle state に戻る．</p></li>
+<li><p>running state にいる間は running 信号をアサートする．</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">add_lut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_bw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -188,7 +233,7 @@
 <span class="sig-name descname"><span class="pre">add_mux2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>2入力MUX を追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sel</strong> (<em>Expr</em>) -- 選択信号線</p></li>
 <li><p><strong>in0</strong> (<em>Expr</em>) -- 入力0</p></li>
@@ -197,7 +242,7 @@
 <li><p><strong>name</strong> (<em>str</em>) -- 出力の名前</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>出力の信号線を返す．</p>
 </dd>
 </dl>
@@ -211,16 +256,16 @@
 <span class="sig-name descname"><span class="pre">add_net</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ネットを生成する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Name</strong> (<em>str</em>) -- 名前(名前付きのオプション引数)</p></li>
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ(名前付きのオプション引数)</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>生成したネットを返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Net</p>
 </dd>
 </dl>
@@ -228,38 +273,18 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_output_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type=&lt;rtlgen.data_type.BitType</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src=None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">add_output_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>出力ポートを追加する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) -- ポート名(名前付きの引数)</p></li>
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ(名前付きのオプション引数)</p></li>
 <li><p><strong>src</strong> (<em>Expr</em>) -- ソース(名前付きのオプション引数)</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>生成されたポートを返す．</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asyncctl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asyncctl_pol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>プロセスを追加する．</p>
-<dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) -- 名前</p></li>
-<li><p><strong>clock</strong> (<em>Expr</em>) -- クロック信号線</p></li>
-<li><p><strong>clock_pol</strong> (<em>str</em>) -- クロックの極性 (&quot;positive&quot;/&quot;negative&quot;)</p></li>
-<li><p><strong>asyncctl</strong> (<em>Expr</em>) -- 非同期制御信号線</p></li>
-<li><p><strong>asyncctl_pol</strong> (<em>str</em>) -- 非同期制御の極性 (&quot;positive&quot;/&quot;negative&quot;)</p></li>
-</ul>
-</dd>
-<dt class="field-even">戻り値</dt>
-<dd class="field-even"><p>生成したプロセスを返す．</p>
 </dd>
 </dl>
 </dd></dl>
@@ -269,16 +294,16 @@
 <span class="sig-name descname"><span class="pre">add_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>変数を生成する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Name</strong> (<em>str</em>) -- 名前(名前付きのオプション引数)</p></li>
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ(名前付きのオプション引数)</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>生成した変数を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Var</p>
 </dd>
 </dl>
@@ -286,10 +311,39 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>pos 番目の名前付きブロックを返す．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>NamedStatementBlock</p>
+</dd>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AssertError (pos が範囲外)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">block_gen</span></span></dt>
+<dd><p>名前付きブロックリストのジェネレーターを返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">block_num</span></span></dt>
+<dd><p>名前付きブロックの数を返す．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lhs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ネットの接続を行う．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lhs</strong> (<em>Expr</em>) -- 左辺式</p></li>
 <li><p><strong>rhs</strong> (<em>Expr</em>) -- 右辺式</p></li>
@@ -339,10 +393,10 @@
 <span class="sig-name descname"><span class="pre">find_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ポート名からポートを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- ポート名</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Port or None</p>
 </dd>
 </dl>
@@ -356,16 +410,22 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">gen_verilog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Verilog-HDL 記述を出力する．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>pos 番目の要素を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Item</p>
 </dd>
-<dt class="field-odd">Rise</dt>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
 <dd class="field-odd"><p>AssertError (pos が範囲外)</p>
 </dd>
 </dl>
@@ -382,7 +442,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">item_num</span></span></dt>
 <dd><p>要素数を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -393,9 +453,8 @@
 <span class="sig-name descname"><span class="pre">make_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>無名のオブジェクトに名前をつける．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>top_entity</strong> (<em>Entity</em>) -- トップレベルのエンティティ</p></li>
 <li><p><strong>port_template</strong> (<em>string</em>) -- ポート名のテンプレート</p></li>
 <li><p><strong>net_template</strong> (<em>string</em>) -- ネット名のテンプレート</p></li>
 <li><p><strong>var_template</strong> (<em>string</em>) -- 変数名のテンプレート</p></li>
@@ -412,7 +471,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
 <dd><p>名前を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -423,13 +482,13 @@
 <span class="sig-name descname"><span class="pre">net</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>pos 番目のネットを返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Net</p>
 </dd>
-<dt class="field-odd">Rise</dt>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
 <dd class="field-odd"><p>AssertError (pos が範囲外)</p>
 </dd>
 </dl>
@@ -446,7 +505,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">net_num</span></span></dt>
 <dd><p>ネット数を返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -457,13 +516,13 @@
 <span class="sig-name descname"><span class="pre">port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>pos 番目のポートを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Port</p>
 </dd>
-<dt class="field-odd">Rise</dt>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
 <dd class="field-odd"><p>AssertError (posが範囲外の時)</p>
 </dd>
 </dl>
@@ -480,8 +539,19 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port_num</span></span></dt>
 <dd><p>ポート数を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reg_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>名前付きブロックを登録する．</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>NamedStatementBlock</strong> -- 登録するブロック</p>
 </dd>
 </dl>
 </dd></dl>
@@ -491,30 +561,8 @@
 <span class="sig-name descname"><span class="pre">reg_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>要素を登録する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>item</strong> (<em>Item</em>) -- 登録する要素</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">reg_net</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ネットを登録する．</p>
-<dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
-<dd class="field-odd"><p><strong>net</strong> (<em>Net</em>) -- 対象のネット</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">reg_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>変数を登録する．</p>
-<dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
-<dd class="field-odd"><p><strong>var</strong> (<em>Var</em>) -- 対象のネット</p>
 </dd>
 </dl>
 </dd></dl>
@@ -524,7 +572,7 @@
 <span class="sig-name descname"><span class="pre">set_default_clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_pol</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>デフォルトのクロックを設定する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>clock</strong> (<em>Expr</em>) -- クロック信号</p></li>
 <li><p><strong>clock_pol</strong> (<em>str</em>) -- クロックの極性</p></li>
@@ -538,7 +586,7 @@
 <span class="sig-name descname"><span class="pre">set_default_reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pol</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>デフォルトのリセットを設定する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>reset</strong> (<em>Expr</em>) -- リセット信号</p></li>
 <li><p><strong>clock_pol</strong> (<em>str</em>) -- リセットの極性</p></li>
@@ -552,13 +600,13 @@
 <span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>pos 番目の変数を返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em>) -- 位置</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Var</p>
 </dd>
-<dt class="field-odd">Rise</dt>
+<dt class="field-odd">Rise<span class="colon">:</span></dt>
 <dd class="field-odd"><p>AssertError (pos が範囲外)</p>
 </dd>
 </dl>
@@ -575,7 +623,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">var_num</span></span></dt>
 <dd><p>変数の数を返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -586,7 +634,7 @@
 <span class="sig-name descname"><span class="pre">write_verilog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>内容を Verilog-HDL 形式で出力する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fout</strong> (<em>file_object</em>) -- 出力先のファイルオブジェクト</p>
 </dd>
 </dl>
@@ -597,7 +645,7 @@
 <span class="sig-name descname"><span class="pre">write_vhdl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>内容を VHDL 形式で出力する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fout</strong> (<em>file_object</em>) -- 出力先のファイルオブジェクト</p>
 </dd>
 </dl>
@@ -640,7 +688,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -664,7 +712,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Yusuke Matsunaga.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

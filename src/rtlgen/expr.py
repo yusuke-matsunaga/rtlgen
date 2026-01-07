@@ -77,6 +77,11 @@ class Expr:
     にするために特殊メソッドを定義するため.
     """
 
+    def is_simple(self):
+        """単純な式の時に True を返す．
+        """
+        return False
+    
     @staticmethod
     def make_not(opr1):
         """bitwise NOT演算を作る.
@@ -328,7 +333,7 @@ class Expr:
         return BinaryOp(OpType.LAND, opr1, opr2)
 
     @staticmethod
-    def make_or(opr1, opr2):
+    def make_lor(opr1, opr2):
         """OR演算を作る.
 
         :param Expr opr1: 第1オペランド
@@ -442,14 +447,14 @@ class Expr:
         assert n > 0
         # 符号拡張を行う．
         msb = src_type.size - 1
-        src_list = list()
+        src_list = []
         msb_expr = Expr.bit_select(src, msb)
         src_list.append(Expr.multi_concat(n, [msb_expr]))
         src_list.append(src)
         return Expr.concat(src_list)
 
     def __init__(self):
-        self.__ref_list = list()
+        self.__ref_list = []
 
     def __invert__(self):
         """NOT演算"""
@@ -764,7 +769,10 @@ class UnaryOp(OpBase):
             op_str = '!'
         else:
             assert False
-        return '({} {})'.format(op_str, str1)
+        if self.operand1.is_simple():
+            return f'{op_str}{str1}'
+        else:
+            return f'({op_str}{str1})'
 
     @property
     def vhdl_str(self):
@@ -790,7 +798,10 @@ class UnaryOp(OpBase):
             op_str = '!'
         else:
             assert False
-        return '({} {})'.format(op_str, str1)
+        if self.operand1.is_simple():
+            return f'{op_str}{str1}'
+        else:
+            return f'({op_str}{str1})'
 
 
 class BinaryOp(OpBase):
@@ -875,7 +886,7 @@ class BinaryOp(OpBase):
             op_str = '||'
         else:
             assert False
-        return '({} {} {})'.format(str1, op_str, str2)
+        return f'({str1} {op_str} {str2})'
 
     @property
     def vhdl_str(self):
@@ -922,7 +933,7 @@ class BinaryOp(OpBase):
             op_str = '||'
         else:
             assert False
-        return '({} {} {})'.format(str1, op_str, str2)
+        return f'({str1} {op_str} {str2})'
 
 
 class Constant(Expr):
@@ -936,6 +947,7 @@ class Constant(Expr):
         super().__init__()
         self.__type = data_type
         self.__val = val
+        assert type(val) == int
 
     @property
     def data_type(self):
@@ -972,10 +984,10 @@ class Constant(Expr):
     def verilog_str(self):
         """Verilog-HDL の式を表す文字列を返す．"""
         if self.data_type.is_bit_type:
-            return "1'b{}".format(self.value)
+            return f"1'b{self.value}"
         elif self.data_type.is_bitvector_type:
             size = self.data_type.size
-            ans = "{}'b".format(size)
+            ans = f"{size}'b"
             for i in range(size):
                 if self.bit_value(size - i - 1):
                     ans += "1"
@@ -984,7 +996,7 @@ class Constant(Expr):
             return ans
         elif self.data_type.is_signedbitvector_type:
             size = self.data_type.size
-            ans = "{}'sb".format(size)
+            ans = f"{size}'sb"
             for i in range(size):
                 if self.bit_value(size - i - 1):
                     ans += "1"
@@ -1074,13 +1086,13 @@ class BitSelect(Expr):
     @property
     def verilog_str(self):
         """Verilog-HDL の式を表す文字列を返す．"""
-        ans = '{}[{}]'.format(self.primary.verilog_str, self.index.verilog_str)
+        ans = f'{self.primary.verilog_str}[{self.index.verilog_str}]'
         return ans
 
     @property
     def vhdl_str(self):
         """VHDL の式を表す文字列を返す．"""
-        ans = '{}({})'.format(self.primary.verilog_str, self.index.verilog_str)
+        ans = f'{self.primary.verilog_str}({self.index.verilog_str})'
         return ans
 
 
@@ -1140,8 +1152,7 @@ class PartSelect(Expr):
     @property
     def verilog_str(self):
         """Verilog-HDL の式を表す文字列を返す．"""
-        ans = '{}[{}:{}]'.format(self.primary.verilog_str,
-                                 self.left, self.right)
+        ans = f'{self.primary.verilog_str}[{self.left}:{self.right}]'
         return ans
 
     @property
@@ -1153,8 +1164,7 @@ class PartSelect(Expr):
             to_str = "downto"
         else:
             assert False
-        ans = '{}({} {} {})'.format(self.primary.vhdl_str,
-                                    self.left, to_str, self.right)
+        ans = f'{self.primary.vhdl_str}({self.left} {to_str} {self.right})'
         return ans
 
 
@@ -1171,8 +1181,11 @@ class Concat(Expr):
 
         :rtype: DataType
         """
-        # 未完
-        assert False
+        bw = 0
+        for src in self.__src_list:
+            assert src.data_type.is_bitvector_type
+            bw += src.data_type.size
+        return DataType.bitvector_type(bw)
 
     @property
     def src_list(self):
@@ -1233,7 +1246,7 @@ class MultiConcat(Expr):
     def verilog_str(self):
         """Verilog-HDL の式を表す文字列を返す．"""
         ans = '{'
-        ans += '{}'.format(self.__rep_num)
+        ans += f'{self.__rep_num}'
         ans += '{'
         comma = ''
         for src in self.__src_list:

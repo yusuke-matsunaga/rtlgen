@@ -7,13 +7,12 @@
 """
 
 import pytest
-from rtlgen import BitType
-from rtlgen import SignedBitVectorType
+from rtlgen import DataType
 
 
 @pytest.fixture()
 def sbv20():
-    return SignedBitVectorType(20)
+    return DataType.signed_bitvector_type(20)
 
 
 def test_signedbitvector_type(sbv20):
@@ -29,15 +28,15 @@ def test_signedbitvector_size(sbv20):
 
 
 def test_signedbitvector_eq1(sbv20):
-    type1 = SignedBitVectorType(20)
+    type1 = DataType.signed_bitvector_type(20)
     assert type1 == sbv20
 
 
 def test_signedbitvector_ew2(sbv20):
-    type1 = SignedBitVectorType(10)
+    type1 = DataType.signed_bitvector_type(10)
     assert type1 != sbv20
 
 
 def test_signedbitvector_eq3(sbv20):
-    type1 = BitType()
+    type1 = DataType.bit_type()
     assert type1 != sbv20

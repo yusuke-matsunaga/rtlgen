@@ -47,7 +47,7 @@ class SimpleBlock(WriteBlock):
             self.writer.write_line(self.__prefix)
 
     def on_exit(self):
-        if self.__suffix is not None:
+        if self.__suffix is not None and self.__suffix != '':
             self.writer.write_line(self.__suffix)
 
 
@@ -63,16 +63,28 @@ class WriterBase:
             fout = sys.stdout
         self.__fout = fout
         self.__indent = 0
+        self.__suspended = False
 
-    def write_line(self, line):
+    def write_line(self, line, *, no_nl=False):
         """一行分の出力を行う．
 
-        :param line: 一行分の文字列
+        :param str line: 一行分の文字列
+        :param bool no_nl: 改行抑止フラグ
 
         * 字下げが行われる．
-        * 改行が行われる．
+        * no_nl = True 以外では改行が行われる．
         """
-        self.__write('{}{}\n'.format('  ' * self.__indent, line))
+        if line != '':
+            if self.__suspended:
+                spc = ''
+            else:
+                spc = '  ' * self.__indent
+            self.__write(f'{spc}{line}')
+        if no_nl:
+            self.__suspended = True
+        else:
+            self.__suspended = False
+            self.write_nl()
 
     def write_nl(self):
         """改行を行う．"""
@@ -167,8 +179,8 @@ class WriterBase:
         # 各位置の文字列の長さの最大値を求める．
         n_list = [0 for _ in range(n_elem)]
         for line in lines:
-            for i in range(n_elem):
-                n = len(line[i])
+            for i, w in enumerate(line):
+                n = len(w)
                 n_list[i] = max(n_list[i], n)
 
         # 長さを1増やす．
@@ -177,7 +189,7 @@ class WriterBase:
                 n_list[i] += 1
 
         # 結果の tab_list を作る．
-        tab_list = list()
+        tab_list = []
         tab_list.append(n0)
         for i in range(1, n_elem):
             n1 = n0 + n_list[i - 1]

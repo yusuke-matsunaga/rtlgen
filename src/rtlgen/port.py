@@ -41,6 +41,9 @@ class Port(Expr):
         self.__data_type = data_type
         self.__name = name
 
+    def is_simple(self):
+        return True
+
     @property
     def needs_net(self):
         return False
@@ -169,6 +172,11 @@ class InoutPort(OutputPort):
         :rtype: PortType
         """
         return PortType.INOUT
+
+    @property
+    def is_output(self):
+        """出力ポートの時 True を返す."""
+        return False
 
     @property
     def is_inout(self):

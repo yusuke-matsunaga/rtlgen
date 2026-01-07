@@ -18,7 +18,7 @@ def test_dff1():
     clock = ent.add_input_port(name='clock')
     data_in = ent.add_input_port(name='data_in')
     data_out = ent.add_output_port(name='data_out')
-    dff = ent.add_dff(clock=clock, clock_edge='positive',
+    dff = ent.add_dff(clock=clock, clock_pol='positive',
                       data_in=data_in)
     ent.connect(data_out, dff.q)
 
@@ -33,7 +33,8 @@ def test_dff1():
   output data_out
 );
   reg net1;
-  always @ ( posedge clock ) begin
+
+  always @( posedge clock ) begin
     net1 <= data_in;
   end
 
@@ -83,7 +84,7 @@ def test_dff2():
     data_out = ent.add_output_port(name='data_out')
     reset = ent.add_input_port(name='reset')
     bit = DataType.bit_type()
-    dff = ent.add_dff(clock=clock, clock_edge='positive',
+    dff = ent.add_dff(clock=clock, clock_pol='positive',
                       reset=reset, reset_pol='positive',
                       reset_val=Expr.make_constant(data_type=bit, val=0),
                       data_in=data_in)
@@ -101,7 +102,8 @@ def test_dff2():
   input  reset
 );
   reg net1;
-  always @ ( posedge clock or posedge reset ) begin
+
+  always @( posedge clock or posedge reset ) begin
     if ( reset ) begin
       net1 <= 1'b0;
     end
@@ -158,7 +160,7 @@ def test_dff3():
     data_in = ent.add_input_port(name='data_in')
     data_out = ent.add_output_port(name='data_out')
     enable = ent.add_input_port(name='enable')
-    dff = ent.add_dff(clock=clock, clock_edge='positive',
+    dff = ent.add_dff(clock=clock, clock_pol='positive',
                       enable=enable, enable_pol='positive',
                       data_in=data_in)
     ent.connect(data_out, dff.q)
@@ -175,8 +177,9 @@ def test_dff3():
   input  enable
 );
   reg net1;
-  always @ ( posedge clock ) begin
-    if ( enable ) begin
+
+  always @( posedge clock ) begin
+    if ( (enable == 1'b1) ) begin
       net1 <= data_in;
     end
   end
@@ -208,8 +211,10 @@ architecture rtl of dff_test3 is
   signal net1 : std_logic;
 begin
   item1: process ( clock ) begin
-    if rising_edge(clock) and enable = '1' then
-      net1 <= data_in;
+    if rising_edge(clock) then
+      if (enable = '1') then
+        net1 <= data_in;
+      end if;
     end if;
   end process item1;
 
@@ -229,7 +234,7 @@ def test_dff4():
     reset = ent.add_input_port(name='reset')
     bit = DataType.bit_type()
     enable = ent.add_input_port(name='enable')
-    dff = ent.add_dff(clock=clock, clock_edge='negative',
+    dff = ent.add_dff(clock=clock, clock_pol='negative',
                       reset=reset, reset_pol='negative',
                       reset_val=Expr.make_constant(data_type=bit, val=0),
                       enable=enable, enable_pol='negative',
@@ -249,12 +254,15 @@ def test_dff4():
   input  enable
 );
   reg net1;
-  always @ ( negedge clock or negedge reset ) begin
+
+  always @( negedge clock or negedge reset ) begin
     if ( !reset ) begin
       net1 <= 1'b0;
     end
-    else if ( !enable ) begin
-      net1 <= data_in;
+    else begin
+      if ( (enable == 1'b0) ) begin
+        net1 <= data_in;
+      end
     end
   end
 
@@ -288,8 +296,10 @@ begin
   item1: process ( clock, reset ) begin
     if reset = '0' then
       net1 <= '0';
-    elsif falling_edge(clock) and enable = '0' then
-      net1 <= data_in;
+    elsif falling_edge(clock) then
+      if (enable = '0') then
+        net1 <= data_in;
+      end if;
     end if;
   end process item1;
 

@@ -7,13 +7,12 @@
 """
 
 import pytest
-from rtlgen import BitType
-from rtlgen import BitVectorType
+from rtlgen import DataType
 
 
 @pytest.fixture()
 def bv10():
-    return BitVectorType(10)
+    return DataType.bitvector_type(10)
 
 
 def test_bitvector_type(bv10):
@@ -29,15 +28,15 @@ def test_bitvector_size(bv10):
 
 
 def test_bitvector_eq1(bv10):
-    type1 = BitVectorType(10)
+    type1 = DataType.bitvector_type(10)
     assert type1 == bv10
 
 
 def test_bitvector_eq2(bv10):
-    type1 = BitVectorType(20)
+    type1 = DataType.bitvector_type(20)
     assert type1 != bv10
 
 
 def test_bitvector_eq3(bv10):
-    type1 = BitType()
+    type1 = DataType.bit_type()
     assert type1 != bv10

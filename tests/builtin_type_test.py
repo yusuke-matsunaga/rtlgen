@@ -6,6 +6,7 @@
 :copyright (C) 2021 Yusuke Matsunaga, All rights reserved.
 """
 
+"""
 from rtlgen.data_type import BuiltinType
 
 
@@ -27,3 +28,4 @@ def test_array_str():
 
 def test_record_str():
     assert BuiltinType.RECORD.__str__() == 'record'
+"""

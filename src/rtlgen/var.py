@@ -23,6 +23,9 @@ class Var(Expr):
         self.__type = data_type
         self.__name = name
 
+    def is_simple(self):
+        return True
+
     @property
     def data_type(self):
         """データタイプを返す．"""

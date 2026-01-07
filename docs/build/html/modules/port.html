@@ -4,7 +4,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Port &#8212; RTL-gen 1.0.0 ドキュメント</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
@@ -44,26 +46,26 @@
           <div class="body" role="main">
             
   <section id="port">
-<span id="id1"></span><h1>Port<a class="headerlink" href="#port" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>Port<a class="headerlink" href="#port" title="この見出しへのパーマリンク">¶</a></h1>
 <p>Port の定義.</p>
 <dl class="field-list simple">
-<dt class="field-odd">file</dt>
+<dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p>port.py</p>
 </dd>
-<dt class="field-even">author</dt>
+<dt class="field-even">author<span class="colon">:</span></dt>
 <dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
 </dd>
-<dt class="field-odd">copyright</dt>
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Copyright (C) 2021 Yusuke Matsunaga, All rights reserved.</p>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">InoutPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.port.OutputPort</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">OutputPort</span></code></p>
 <p>入出力ポートを表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- 名前(名前付きのオプション引数)</p></li>
@@ -78,10 +80,16 @@
 
 <dl class="py property">
 <dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_output</span></span></dt>
+<dd><p>出力ポートの時 True を返す.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port_type</span></span></dt>
 <dd><p>ポートの種類を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>PortType</p>
 </dd>
 </dl>
@@ -92,10 +100,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">InputPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.port.Port</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></p>
 <p>入力ポートを表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- ポート名(名前付きのオプション引数)</p></li>
@@ -113,7 +121,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port_type</span></span></dt>
 <dd><p>ポートの種類を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>PortType</p>
 </dd>
 </dl>
@@ -136,10 +144,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">OutputPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.port.Port</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></p>
 <p>出力ポートを表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- 名前(名前付きのオプション引数)</p></li>
@@ -157,7 +165,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port_type</span></span></dt>
 <dd><p>ポートの種類を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>PortType</p>
 </dd>
 </dl>
@@ -168,10 +176,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">Port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>ポートを表す基底クラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データタイプ</p></li>
 <li><p><strong>name</strong> (<em>str</em>) -- ポート名(名前付きのオプション引数)</p></li>
@@ -183,7 +191,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データタイプを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -207,12 +215,18 @@
 <dd><p>出力ポートの時 True を返す.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_simple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>単純な式の時に True を返す．</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
 <dd><p>名前を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -229,7 +243,7 @@
 <span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>名前を設定する．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>string</em>) -- ポート名</p>
 </dd>
 </dl>
@@ -251,8 +265,8 @@
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">PortType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.port.</span></span><span class="sig-name descname"><span class="pre">PortType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>ポートの種類を表す列挙型</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
@@ -306,7 +320,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -330,7 +344,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Yusuke Matsunaga.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

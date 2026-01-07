@@ -9,18 +9,18 @@
 import pytest
 from rtlgen import Expr
 from rtlgen.expr import OpType, UnaryOp, BinaryOp
-from rtlgen import Net
-from rtlgen import BitType, BitVectorType
+from rtlgen.net import Net
+from rtlgen import DataType
 
 
 @pytest.fixture
 def bit_type():
-    return BitType()
+    return DataType.bit_type()
 
 
 @pytest.fixture
 def bv16_type():
-    return BitVectorType(16)
+    return DataType.bitvector_type(16)
 
 
 def test_net1(bit_type):

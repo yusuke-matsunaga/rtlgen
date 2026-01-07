@@ -11,6 +11,7 @@ from rtlgen.entity_mgr import EntityMgr
 from rtlgen.data_type import DataType
 from rtlgen.expr import Expr
 import rtlgen.entity
+import rtlgen.lfsm
 import rtlgen.inst
 import rtlgen.lut
 import rtlgen.dff

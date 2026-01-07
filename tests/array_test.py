@@ -7,15 +7,13 @@
 """
 
 import pytest
-from rtlgen import BitType
-from rtlgen import BitVectorType
-from rtlgen import ArrayType
+from rtlgen import DataType
 
 
 @pytest.fixture()
 def barray10():
-    bit_type = BitType()
-    return ArrayType(bit_type, 10)
+    bit_type = DataType.bit_type()
+    return DataType.array_type(bit_type, 10)
 
 
 def test_array_type(barray10):
@@ -27,7 +25,7 @@ def test_array_type(barray10):
 
 
 def test_array_subtype(barray10):
-    assert barray10.subtype == BitType()
+    assert barray10.subtype == DataType.bit_type()
 
 
 def test_array_size(barray10):
@@ -35,18 +33,18 @@ def test_array_size(barray10):
 
 
 def test_bitvector_eq1(barray10):
-    bit_type = BitType()
-    type1 = ArrayType(bit_type, 10)
+    bit_type = DataType.bit_type()
+    type1 = DataType.array_type(bit_type, 10)
     assert type1 == barray10
 
 
 def test_bitvector_eq2(barray10):
-    bv_type = BitVectorType(10)
-    type1 = ArrayType(bv_type, 10)
+    bv_type = DataType.bitvector_type(10)
+    type1 = DataType.array_type(bv_type, 10)
     assert type1 != barray10
 
 
 def test_bitvector_eq3(barray10):
-    bit_type = BitType()
-    type1 = ArrayType(bit_type, 20)
+    bit_type = DataType.bit_type()
+    type1 = DataType.array_type(bit_type, 20)
     assert type1 != barray10

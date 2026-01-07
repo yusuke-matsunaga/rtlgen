@@ -7,13 +7,13 @@
 :copyright: Copyright (C) 2022 Yusuke Matsunaga, All rights reserved.
 """
 
-from rtlgen.process import Process
+from rtlgen.process import ClockedProcess
 from rtlgen.data_type import BitType
 from rtlgen.entity import Entity
 from rtlgen.expr import Expr
 
 
-class Dff(Process):
+class Dff(ClockedProcess):
     """D-FF を表すクラス
 
     :param str name: 名前
@@ -72,18 +72,22 @@ class Dff(Process):
 
         # リセット動作を表す statement を作る．
         if self.reset is not None:
-            self.asyncctl_body.add_assign(self.q, self.__reset_val)
+            with self.asyncctl_body() as _:
+                _.add_assign(self.q, self.__reset_val)
         # 動作を表す statement を作る．
         if self.enable is None:
-            self.body.add_assign(self.q, self.data_in)
+            with self.body() as _:
+                _.add_assign(self.q, self.data_in)
         else:
             if self.__enable_pol == "positive":
                 val = 1
             else:
                 val = 0
             cond = Expr.make_eq(self.enable, Expr.make_constant(val=val))
-            if_stmt = self.body.add_if(cond)
-            if_stmt.then_body.add_assign(self.q, self.data_in)
+            with self.body() as _:
+                if_stmt = _.add_if(cond)
+                with if_stmt.then_body() as _:
+                    _.add_assign(self.q, self.data_in)
 
     @property
     def data_in(self):

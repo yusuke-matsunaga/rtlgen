@@ -531,36 +531,37 @@ Verilog-HDL 出力
    endmodule // ent
 
 
-2.6 プロセス
-^^^^^^^^^^^^^
+2.6 順序回路用プロセス
+^^^^^^^^^^^^^^^^^^^^^^^
 
 RTL記述の一般的なスタイルではエンティティ直下には
 if文やcase文のような動作記述を置くことができない．
 そのために「プロセス」と呼ばれる構成要素を用いて
 その中で動作記述を行う．
-そのためのメソッドが ``Entity.add_process()`` である．
-``add_process`` の引数は以下の通り．
+同期式順序回路を記述するためには ``Entity.add_clocked_process()``
+を用いる．
+``add_clocked_process`` の引数は以下の通り．
 
-+------------------+----------+-----------------------------+
-| パラメータ名     | 型       | 説明                        |
-+==================+==========+=============================+
-| ``name``         | str      | 名前                        |
-+------------------+----------+-----------------------------+
-| ``clock``        | Expr     | クロック信号線              |
-+------------------+----------+-----------------------------+
-| ``clock_pol``    | str      | クロックの極性              |
-+------------------+----------+-----------------------------+
-| ``asyncctl``     | Expr     | 非同期制御信号線            |
-+------------------+----------+-----------------------------+
-| ``asyncctl_pol`` | str      | 非同期制御の極性            |
-+------------------+----------+-----------------------------+
++------------------+----------+------------------+--------------------+
+| パラメータ名     | 型       | 説明             | 省略(デフォルト値) |
++==================+==========+==================+====================+
+| ``name``         | str      | 名前             | 可(None)           |
++------------------+----------+------------------+--------------------+
+| ``clock``        | Expr     | クロック信号線   | 不可               |
++------------------+----------+------------------+--------------------+
+| ``clock_pol``    | str      | クロックの極性   | 不可               |
++------------------+----------+------------------+--------------------+
+| ``asyncctl``     | Expr     | 非同期制御信号線 | 可(None)           |
++------------------+----------+------------------+--------------------+
+| ``asyncctl_pol`` | str      | 非同期制御の極性 | 可(None)           |
++------------------+----------+------------------+--------------------+
 
 すべてのパラメータは名前付きのオプション引数である．
 クロックと非同期制御が省略された場合には組み合わせ回路用の
 プロセスが生成される．
-このメソッドは ``Process`` クラスのオブジェクトを返す．
+このメソッドは ``ClockedProcess`` クラスのオブジェクトを返す．
 
-``Process`` クラスのメンバは以下の通り
+``ClockedProcess`` クラスのメンバは以下の通り
 
 +---------------------------+----------------+----------------------------------------------+
 | メンバ名                  | 型             | 説明                                         |
@@ -577,32 +578,312 @@ if文やcase文のような動作記述を置くことができない．
 +---------------------------+----------------+----------------------------------------------+
 | ``asyncctl_pol``          | str            | 非同期制御の極性                             |
 +---------------------------+----------------+----------------------------------------------+
-| ``asyncctl_body``         | StatementBlock | 非同期制御ブロック                           |
+| ``process_body()``        | StmtContext    | 全体のブロック                               |
 +---------------------------+----------------+----------------------------------------------+
-| ``body``                  | StatementBlock | 本体ブロック                                 |
++---------------------------+----------------+----------------------------------------------+
+| ``asyncctl_body()``       | StmtContext    | 非同期制御ブロック                           |
++---------------------------+----------------+----------------------------------------------+
+| ``body``                  | StmtContext    | 本体ブロック                                 |
 +---------------------------+----------------+----------------------------------------------+
 
-クラス ``StatementBlock`` はステートメントのリストを保持するクラスであ
-る．
+クラス ``StmtContext`` はステートメントブロックを表すクラスである．
 通常はこのクラスに対してステートメントを追加することになる．
+ただし， ``add_async_stmt()`` や ``add_body_stmt()`` を使って
+ステートメントを追加することもできる．
+注意が必要なのは ``body()`` と ``process_body()`` で，
+もしも非同期制御がない場合はこの2つは同じものとなるが，
+非同期制御がある場合は ``process_body()`` は非同期制御も含んだ全体のブ
+ロックを表し，
+``body()`` が非同期制御以外の本体のブロックを表す．
+通常は ``process_body()`` を明示的に使う必要はない．
+
+以下の例はイネーブル信号付きの1ビットのD-FFの記述例である．
+(D-FFは別途 ``add_dff()`` で作成することもできる)
+``with`` 構文に関しては2.8.4の ``StmtContext`` を参照のこと
+::
+
+   from rtlgen import EntityMgr, Expr
+
+   mgr = EntityMgr()
+
+   ent1 = mgr.add_entity('dff1')
+   data_in = ent1.add_input_port(name='data_in')
+   enable = ent1.add_input_port(name='enable')
+   clock = ent1.add_input_port(name='clock')
+   q = ent1.add_output_port(name='q')
+
+   proc1 = ent1.add_clocked_process(clock=clock, clock_pol="positive")
+
+   net = ent1.add_net(reg_type=True)
+   with proc1.body() as _:
+     if_stmt = _.add_if(enable)
+     with if_stmt.then_body() as _:
+       # スコープルールがあるので '_' を使いまわしても
+       # 問題ない．
+       # 別に b1, b2 という普通の変数を用いてもOK
+       _.add_assign(net, data_in)
+
+   # 出力の接続を行う．
+   ent1.connect(q, net)
+
+この ``ent1`` に対する VHDL 出力は以下の様になる．
+
+::
+
+   library IEEE;
+   use IEEE.std_logic_1164.all;
+
+   entity dff1 is
+     port (
+       data_in : in  std_logic;
+       enable  : in  std_logic;
+       clock   : in  std_logic;
+       q       : out std_logic
+     );
+   end entity dff1;
+
+   architecture rtl of dff1 is
+     signal net1 : std_logic;
+   begin
+     item1: process ( clock ) begin
+       if rising_edge(clock) then
+         if enable then
+           net1 <= data_in;
+         end if;
+       end if;
+     end process item1;
+
+     q <= net1;
+   end architecture rtl;
+
+同様に ``ent1`` に対する Verilog-HDL 出力は以下の様になる．
+
+::
+
+   module dff1(
+     input  data_in,
+     input  enable,
+     input  clock,
+     output q
+   );
+     reg net1;
+
+     always @( posedge clock ) begin
+       if ( enable ) begin
+         net1 <= data_in;
+       end
+     end
+
+     assign q = net1;
+   endmodule // dff1
+
+次の例は ``asyncctl`` を用いた非同期リセット付きのD-FFの記述例である．
+(繰り返すがD-FFなら後述の ``add_dff()`` を用いたほうが簡単に記述できる)
+
+::
+
+   # ~~省略~~
+
+   # 1ビットの非同期リセット付きD-FF用のプロセス
+   ent2 = mgr.add_entity('dff2')
+   data_in = ent2.add_input_port(name='data_in')
+   reset = ent2.add_input_port(name='reset')
+   clock = ent2.add_input_port(name='clock')
+   q = ent2.add_output_port(name='q')
+
+   proc2 = ent2.add_clocked_process(clock=clock, clock_pol="positive",
+                                    asyncctl=reset, asyncctl_pol="negative")
+
+   net = ent2.add_net(reg_type=True)
+   with proc2.body() as _:
+       _.add_assign(net, data_in)
+   # 非同期リセットは別に記述する．
+   with proc2.asyncctl_body() as _:
+       _.add_assign(net, Expr.make_constant(val=0))
+
+   # 出力の接続を行う．
+   ent2.connect(q, net)
+
+VHDL出力
+
+::
+
+   library IEEE;
+   use IEEE.std_logic_1164.all;
+
+   entity dff2 is
+     port (
+       data_in : in  std_logic;
+       reset   : in  std_logic;
+       clock   : in  std_logic;
+       q       : out std_logic
+     );
+   end entity dff2;
+
+   architecture rtl of dff2 is
+     signal net1 : std_logic;
+   begin
+     item1: process ( clock, reset ) begin
+       if reset = '0' then
+         net1 <= '0';
+       elsif rising_edge(clock) then
+         net1 <= data_in;
+       end if;
+     end process item1;
+
+     q <= net1;
+   end architecture rtl;
+
+Verilog-HDL 出力
+
+::
+
+   module dff2(
+     input  data_in,
+     input  reset,
+     input  clock,
+     output q
+   );
+     reg net1;
+
+     always @( posedge clock or negedge reset ) begin
+       if ( !reset ) begin
+         net1 <= 1'b0;
+       end
+       else begin
+         net1 <= data_in;
+       end
+     end
+
+     assign q = net1;
+   endmodule // dff2
+
 
 2.7 組み合わせ回路用プロセス
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-前述のようにクロックと非同期制御を省略すると組み合わせ回路用のプロセス
-が生成されるが，
-その場合， ``Process`` クラスそのものは不要であり，
-``Process.body`` に対してステートメントの追加を行うだけなので，
-``Entity.add_comb_body()`` を用いるとプロセスの生成を行い，
-その本体ブロックを返り値として得ることができる．
+if 文や case 文を用いて組み合わせ回路を記述する場合は
+``Entity.add_comb_process()`` を用いる．
+結果としてクラス ``CombProcess`` が返される．
+内部にステートメントを追加する時には ``Process.body()`` を用い
+る．
+
+以下の例は3ビットのプライオリティエンコーダーの記述例である．
+
+::
+
+   from rtlgen import EntityMgr, DataType, Expr
+
+   mgr = EntityMgr()
+
+   # ２ビットのビットベクタ
+   otype = DataType.bitvector_type(2)
+
+   ent1 = mgr.add_entity('comb1')
+   a = ent1.add_input_port(name='a')
+   b = ent1.add_input_port(name='b')
+   c = ent1.add_input_port(name='c')
+   o = ent1.add_output_port(name='o', data_type=otype)
+
+   proc1 = ent1.add_comb_process()
+
+   net = ent1.add_net(reg_type=True)
+   with proc1.body() as _:
+       _.add_assign(net, Expr.make_constant(data_type=otype, val=0))
+       if1 = _.add_if(a)
+       with if1.then_body() as _:
+           _.add_assign(net, Expr.make_constant(data_type=otype, val=1))
+       with if1.else_body() as _:
+           if2 = _.add_if(b)
+           with if2.then_body() as _:
+               _.add_assign(net, Expr.make_constant(data_type=otype, val=2))
+           with if2.else_body() as _:
+               if3 = _.add_if(c)
+               with if3.then_body() as _:
+                   _.add_assign(net, Expr.make_constant(data_type=otype, val=3))
+
+   ent1.connect(o, net)
+
+VHDL 出力
+
+::
+
+   library IEEE;
+   use IEEE.std_logic_1164.all;
+
+   entity comb1 is
+     port (
+       a : in  std_logic;
+       b : in  std_logic;
+       c : in  std_logic;
+       o : out std_logic_vector(1 downto 0)
+     );
+   end entity comb1;
+
+   architecture rtl of comb1 is
+     signal net1 : std_logic;
+   begin
+     item1: process ( ) begin
+       begin
+         net1 <= "00";
+         if a then
+           net1 <= "01";
+         else
+           if b then
+             net1 <= "10";
+           else
+             if c then
+               net1 <= "11";
+             end if;
+           end
+         end
+       end
+     end process item1;
+
+     o <= net1;
+   end architecture rtl;
+
+Verilog-HDL 出力
+
+::
+
+   module comb1(
+     input        a,
+     input        b,
+     input        c,
+     output [1:0] o
+   );
+     reg net1;
+
+     always @* begin
+       net1 <= 2'b00;
+       if ( a ) begin
+         net1 <= 2'b01;
+       end
+       else begin
+         if ( b ) begin
+           net1 <= 2'b10;
+         end
+         else begin
+           if ( c ) begin
+             net1 <= 2'b11;
+           end
+         end
+       end
+     end
+
+     assign o = net1;
+   endmodule // comb1
+
 
 2.8 ステートメント
 ^^^^^^^^^^^^^^^^^^^
 
 プロセス内の動作記述を行うための構成要素でる．
+直接ステートメントのクラスを生成することはせず，
 クラス ``StatementBlock`` のメソッドを用いて生成する．
 なお， ``StatementBlock`` は ``Process`` や ``Statement``
-内部に生成されるものでこのクラスを直接生成することはない．
+内部に生成されるものでこのクラス自体も直接生成することはない．
 
 +------------------------------------+-----------------------------+
 | メソッド名                         | 説明                        |
@@ -614,27 +895,165 @@ if文やcase文のような動作記述を置くことができない．
 | ``add_case(cond)``                 | CASE文を追加する．          |
 +------------------------------------+-----------------------------+
 
-``add_assign`` の ``lhs`` ， ``rhs`` は ``Expr`` タイプのオブジェクト
+2.8.1 代入文
+^^^^^^^^^^^^^^
+
+``add_assign()`` の ``lhs`` ， ``rhs`` は ``Expr`` タイプのオブジェクト
 でそれぞれ，左辺式，右辺式を指定する．
 ``blocking`` は ``bool`` 型の変数で ``True`` の時にブロッキング代入文
 を， ``False`` の時にはノンブロッキング代入文を生成する．
 
-``add_if`` の ``cond`` は ``Expr`` タイプのオブジェクトで，
+2.8.2 IF文
+^^^^^^^^^^^
+
+``add_if()`` の ``cond`` は ``Expr`` タイプのオブジェクトで，
 IF文の条件式を指定する．
 この時点ではTHEN節もELSE節も空の状態である．
-THEN節とELSE節はそれぞれ ``If.then_body`` ，
-``If.else_body`` でアクセスすることができる．
-これらは ``StatementBlock`` タイプのオブジェクトなので
-前述のメソッドを用いてステートメントを追加することができる．
 
-``addCase`` の ``cond`` は ``Expr`` タイプのオブジェクトで，
+THEN節とELSE節はそれぞれ ``If.then_body()`` ，
+``If.else_body()`` でアクセスすることができる．
+これらは内部では ``StatementBlock`` タイプのオブジェクトとして
+表されるが``If.then_body()`` ，``If.else_body()`` の返り値は
+後述の ``StmtContext`` になっている．
+IF文の使用例はプロセスの項を参照のこと．
+
+2.8.3 CASE文
+^^^^^^^^^^^^^
+
+``add_case()`` の ``cond`` は ``Expr`` タイプのオブジェクトで，
 CASE文の条件式を指定する．
 この時点ではCASE文の本体は空の状態である．
 本体にラベルを追加するには ``Case.add_label(label)``
 を用いる． ``label`` はラベルを表す ``Expr``
 タイプのオブジェクトを指定する．
-このメソッドはこのラベルに対応するブロックの
-``StatementBlock`` オブジェクトを返す．
+このメソッドはこのラベルに対応するステートメントブロックの
+``StmtContext`` を返す．
+
+以下の例は4入力マルチプレクサ(セレクタ)をcase文で記述したものである．
+
+::
+
+   from rtlgen import EntityMgr, DataType, Expr
+
+   mgr = EntityMgr()
+
+   # 2ビットのビットベクタ
+   bv2 = DataType.bitvector_type(2)
+
+   ent1 = mgr.add_entity('comb1')
+   a = ent1.add_input_port(name='a')
+   b = ent1.add_input_port(name='b')
+   c = ent1.add_input_port(name='c')
+   d = ent1.add_input_port(name='d')
+   sel = ent1.add_input_port(name='sel', data_type=bv2)
+   o = ent1.add_output_port(name='o')
+
+   proc1 = ent1.add_comb_process()
+
+   net = ent1.add_net(reg_type=True)
+   with proc1.body() as _:
+       case1 = _.add_case(sel)
+       with case1.add_label(Expr.make_constant(data_type=bv2, val=0)) as _:
+           _.add_assign(net, a)
+       with case1.add_label(Expr.make_constant(data_type=bv2, val=1)) as _:
+           _.add_assign(net, b)
+       with case1.add_label(Expr.make_constant(data_type=bv2, val=2)) as _:
+           _.add_assign(net, c)
+       with case1.add_label(Expr.make_constant(data_type=bv2, val=3)) as _:
+           _.add_assign(net, d)
+
+   ent1.connect(o, net)
+
+
+Verilog-HDL 出力
+
+::
+
+   module comb1(
+     input        a,
+     input        b,
+     input        c,
+     input        d,
+     input  [1:0] sel,
+     output       o
+   );
+     reg net1;
+
+     always @* begin
+       case ( sel )
+         2'b00:
+
+           begin
+             net1 <= a;
+           end
+         2'b01:
+
+           begin
+             net1 <= b;
+           end
+         2'b10:
+
+           begin
+             net1 <= c;
+           end
+         2'b11:
+
+           begin
+             net1 <= d;
+           end
+       endcase
+     end
+
+     assign o = net1;
+   endmodule // comb1
+
+
+2.8.4 ``StatementBlock`` と ``StmtContext``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+複数のステートメントをグループ化したものをステートメントブロックと呼ぶ．
+内部ではクラス ``StatementBlock`` で表される．
+通常のRTL記述ではステートメントブロック内の記述はインデントしており，
+一見してブロック内の記述とわかりやすいが，
+RtlGen ではインデントしていないため可読性が悪い．
+そこで，Python の with 構文を使ってブロック内の記述をインデントした
+Python のブロック内で記述できるようにしている．
+具体的には ``with StmtContext as var:``
+という記述で with ブロックを構成する．
+この構文は ``:`` で終わっているので Python のブロック構造の始まりを
+表している．
+続く文はインデントしなければならず，インデントが終わった時点で
+このブロックの終了を表す．
+通常はブロックの始まりと終わりのタイミングで特定の処理
+(ファイルのオープンとクローズなど)を行う目的で用いられるが，
+ここではただ単にインデントを行うために用いている．
+with 構文の後半の `` as var`` はブロック内でのみ有効な変数で，
+ここでは対応する ``StatementBlock`` が ``var`` に代入される．
+通常はこの ``StatementBlock`` に対してステートメントの追加を行う．
+この変数名に関しては特に制約はないので自由に名前を付けてよいが，
+ブロックがネストした時に複数の名前があるとかえって分かりづらいので，
+ここで用いている例のようにすべて ``_`` にしてしまうというやり方もある．
+以下にIF文の使用例を示す．
+
+::
+
+   ...
+   if_stmt = block.add_if(cond)
+   with if_stmt.then_body() as _:
+     _.add_assign(x, a + 1)
+     if2 = _.add_if(y)
+     with if2.then_body() as _:
+       _.add_assign(x, a)
+   with if_stmt.else_body() as _:
+     _.add_assign(x, a - 1)
+
+の様に記述する．
+
+``StmtContext`` は ``Process.process_body()`` ，
+``Process.asyncctl_body()`` ， ``Process.body()`` ，
+``CombProcess.body()`` ，
+``IfStmt.then_body()`` ， ``IfStmt.else_body()`` ，
+``CaseStmt.add_label()`` の結果として返される．
 
 
 3. 拡張型の構成要素
@@ -763,7 +1182,7 @@ Verilog-HDL
    endmodule // dff_test1
 
 
-2.7 LookUp Table
+3.2 LookUp Table
 ^^^^^^^^^^^^^^^^^^
 
 表引きで入力に対応した出力を返す組み合わせ回路を表す構成要素は

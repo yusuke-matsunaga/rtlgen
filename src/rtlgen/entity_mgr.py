@@ -15,8 +15,8 @@ class EntityMgr:
     """RTL記述全体を表すクラス"""
 
     def __init__(self):
-        self.__entity_list = list()
-        self.__entity_dict = dict()
+        self.__entity_list = []
+        self.__entity_dict = {}
 
     @property
     def entity_gen(self):
@@ -31,7 +31,7 @@ class EntityMgr:
         """
 
         if name in self.__entity_dict:
-            emsg = 'entity name "{}" is already in use.'.format(name)
+            emsg = f'entity name "{name}" is already in use.'
             raise RtlError(emsg)
         ent = Entity(name)
         self.__entity_list.append(ent)
@@ -42,7 +42,7 @@ class EntityMgr:
     def get_entity_list(top_entity):
         """使用されているエンティティのリストを作る．"""
 
-        ent_list = list()
+        ent_list = []
         ent_set = set()
         top_entity.gen_entity_sub(ent_list, ent_set)
         return ent_list

@@ -183,7 +183,7 @@ class BitVectorType(SizedType):
 
     def __str__(self):
         """内容を表す文字列を返す．"""
-        return "BitVectorType[{}]".format(self.size)
+        return f"BitVectorType[{self.size}]"
 
 
 class SignedBitVectorType(SizedType):
@@ -212,7 +212,7 @@ class SignedBitVectorType(SizedType):
 
     def __str__(self):
         """内容を表す文字列を返す．"""
-        return "SignedBitVectorType[{}]".format(self.size)
+        return f"SignedBitVectorType[{self.size}]"
 
 
 class IntegerType(DataType):
@@ -283,7 +283,7 @@ class ArrayType(SizedType):
 
     def __str__(self):
         """内容を表す文字列を返す．"""
-        return "ArrayType[{} x {}]".format(self.subtype, self.size)
+        return f"ArrayType[{self.subtype} x {self.size}]"
 
 
 class RecordType(DataType):
@@ -339,6 +339,6 @@ class RecordType(DataType):
         ans = "RecordType["
         for key in sorted(self.record_list):
             subtype = self.record_type(key)
-            ans += "{}:{}".format(key, subtype)
+            ans += f"{key}:{subtype}"
         ans += "]"
         return ans

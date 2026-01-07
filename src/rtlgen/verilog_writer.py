@@ -8,6 +8,7 @@
 """
 
 from rtlgen.writer_base import WriterBase, WriteBlock
+from rtlgen.item_mgr import ItemMgr
 from rtlgen.entity import Entity
 
 
@@ -44,26 +45,10 @@ class VerilogWriter(WriterBase):
         entity.make_names()
 
         with VerilogModule(self, entity):
-            # ネット宣言の出力
-            lines = list()
-            for net in entity.net_gen:
-                if net.reg_type:
-                    net_str = 'reg'
-                else:
-                    net_str = 'wire'
-                signed_str, range_str = \
-                    VerilogWriter.__data_type_to_str(net.data_type)
-                line = [net_str, signed_str, range_str, net.name]
-                lines.append(line)
-            self.write_lines(lines, end=';')
-            self.write_line('')
-
-            # 要素記述の出力
-            for item in entity.item_gen:
-                item.gen_verilog(self)
+            entity.gen_verilog(self)
 
             # 継続的代入文の出力
-            lines = list()
+            lines = []
             for ca in entity.cont_assign_gen:
                 lhs_str = ca.lhs.verilog_str
                 rhs_str = ca.rhs.verilog_str
@@ -73,16 +58,16 @@ class VerilogWriter(WriterBase):
 
     def write_module_header(self, entity):
         """モジュールのヘッダを出力する．"""
-        line = 'module {}'.format(entity.name)
+        line = f'module {entity.name}'
         if entity.port_num > 0:
             line += '('
             self.write_line(line)
             self.inc_indent()
             if True:
                 # ポートリストの出力
-                lines = list()
+                lines = []
                 for port in entity.port_gen:
-                    line = list()
+                    line = []
                     if port.is_input:
                         port_type = 'input'
                     elif port.is_output:
@@ -91,7 +76,7 @@ class VerilogWriter(WriterBase):
                         port_type = 'inout'
                     else:
                         assert False
-                    signed_str, range_str = VerilogWriter.__data_type_to_str(
+                    signed_str, range_str = VerilogWriter.data_type_to_str(
                         port.data_type)
                     line = [port_type, signed_str, range_str, port.name]
                     lines.append(line)
@@ -105,10 +90,10 @@ class VerilogWriter(WriterBase):
 
     def write_module_footer(self, entity):
         """モジュールのフッタを出力する．"""
-        self.write_line('endmodule // {}'.format(entity.name))
+        self.write_line(f'endmodule // {entity.name}')
 
     @ staticmethod
-    def __data_type_to_str(data_type):
+    def data_type_to_str(data_type):
         """データタイプを表す Verilog 文字列を作る.
 
         :param DataType data_type: データタイプ
@@ -121,10 +106,10 @@ class VerilogWriter(WriterBase):
             # 何もしない．
             pass
         elif data_type.is_bitvector_type:
-            range_str = '[{}:0]'.format(data_type.size - 1)
+            range_str = f'[{data_type.size - 1}:0]'
         elif data_type.is_signedbitvector_type:
             signed_str = 'signed'
-            range_str = 'signed [{}:0]'.format(data_type.size - 1)
+            range_str = f'signed [{data_type.size - 1}:0]'
         else:
             # それ以外のタイプは使えない．
             assert False
@@ -158,6 +143,31 @@ class VerilogWriter(WriterBase):
             return '!' + sig_str
         else:
             assert False
+
+
+def item_mgr_gen_verilog(item_mgr, writer):
+    """Verilog-HDL 記述を出力する(ItemMgr用)．
+    """
+    # ネット宣言の出力
+    lines = []
+    for net in item_mgr.net_gen:
+        if net.reg_type:
+            net_str = 'reg'
+        else:
+            net_str = 'wire'
+        signed_str, range_str = \
+            VerilogWriter.data_type_to_str(net.data_type)
+        line = [net_str, signed_str, range_str, net.name]
+        lines.append(line)
+    writer.write_lines(lines, end=';')
+    writer.write_line('')
+
+    # 要素記述の出力
+    for item in item_mgr.item_gen:
+        item.gen_verilog(writer)
+
+# ItemMgr にメンバ関数（インスタンスメソッド）を追加する．
+ItemMgr.gen_verilog = item_mgr_gen_verilog
 
 
 def write_verilog(self, *, fout=None):

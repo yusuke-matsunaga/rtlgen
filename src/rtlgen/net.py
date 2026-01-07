@@ -3,7 +3,7 @@
 # @file net.py
 # @brief Net のクラス定義
 # @author Yusuke Matsunaga (松永 裕介)
-###
+#
 # Copyright (C) 2021 Yusuke Matsunaga
 # All rights reserved.
 
@@ -23,6 +23,9 @@ class Net(Expr):
         self.__name = name
         self.__reg_type = reg_type
 
+    def is_simple(self):
+        return True
+    
     @property
     def needs_net(self):
         return False

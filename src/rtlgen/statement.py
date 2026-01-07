@@ -9,6 +9,7 @@
 
 from enum import Enum
 from rtlgen.expr import Expr
+from rtlgen.item_mgr import ItemMgr
 from rtlgen.writer_base import SimpleBlock
 
 
@@ -20,6 +21,20 @@ class StmtType(Enum):
     CaseStatement = 4
     WhileStatement = 5
     StatementBlock = 6
+
+
+class StmtContext:
+    """StatementBlock 用のコンテキストマネージャ
+    """
+
+    def __init__(self, statement):
+        self.__statement = statement
+
+    def __enter__(self):
+        return self.__statement
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        pass
 
 
 class Statement:
@@ -69,7 +84,7 @@ class BlockingAssign(AssignBase):
 
         :param VerilogWriter writer: Verilog-HDL出力器
         """
-        line = '{} = {};'.format(self.lhs.verilog_str, self.rhs.verilog_str)
+        line = f'{self.lhs.verilog_str} = {self.rhs.verilog_str};'
         writer.write_line(line)
 
     def gen_vhdl(self, writer):
@@ -77,7 +92,7 @@ class BlockingAssign(AssignBase):
 
         :param VhdlWriter writer: VHDL出力器
         """
-        line = '{} = {};'.format(self.lhs.vhdl_str, self.rhs.vhdl_str)
+        line = f'{self.lhs.vhdl_str} = {self.rhs.vhdl_str};'
         writer.write_line(line)
 
 
@@ -98,7 +113,7 @@ class NonblockingAssign(AssignBase):
 
         :param VerilogWriter writer: Verilog-HDL出力器
         """
-        line = '{} <= {};'.format(self.lhs.verilog_str, self.rhs.verilog_str)
+        line = f'{self.lhs.verilog_str} <= {self.rhs.verilog_str};'
         writer.write_line(line)
 
     def gen_vhdl(self, writer):
@@ -106,7 +121,7 @@ class NonblockingAssign(AssignBase):
 
         :param VhdlWriter writer: VHDL出力器
         """
-        line = '{} <= {};'.format(self.lhs.vhdl_str, self.rhs.vhdl_str)
+        line = f'{self.lhs.vhdl_str} <= {self.rhs.vhdl_str};'
         writer.write_line(line)
 
 
@@ -130,54 +145,47 @@ class IfStatement(Statement):
         """条件式を返す．"""
         return self.__cond
 
-    @property
     def then_body(self):
         """Then節を返す．"""
-        return self.__then
+        return StmtContext(self.__then)
 
-    @property
     def else_body(self):
         """Else節を返す．"""
-        return self.__else
+        return StmtContext(self.__else)
 
     def gen_verilog(self, writer):
         """Verilog-HDL記述を生成する
 
         :param VerilogWriter writer: Verilog-HDL出力器
         """
-        header = 'if ( {} ) begin'.format(self.cond.verilog_str)
-        footer = 'end'
-        with SimpleBlock(writer, header, footer):
-            if self.then_body.is_null:
-                writer.write_line(';')
-            else:
-                self.then_body.gen_verilog(writer)
-        if not self.else_body.is_null:
-            header = 'else begin'
-            footer = 'end'
-            with SimpleBlock(writer, header, footer):
-                self.else_body.gen_verilog(writer)
+        writer.write_line(f'if ( {self.cond.verilog_str} ) ', no_nl=True)
+        self.__then.gen_verilog(writer)
+        if not self.__else.is_null:
+            writer.write_line('else ', no_nl=True)
+            self.__else.gen_verilog(writer)
 
     def gen_vhdl(self, writer):
         """VHDL記述を生成する
 
         :param VhdlWriter writer: VHDL出力器
         """
-        header = 'if {} then'.format(self.cond.vhdl_str)
-        if self.else_body.is_null:
+        header = f'if {self.cond.vhdl_str} then'
+        if self.__else.is_null:
             footer = 'end if;'
         else:
             footer = ''
         with SimpleBlock(writer, header, footer):
-            if self.then_body.is_null:
+            if self.__then.is_null:
                 writer.write_line(';')
             else:
-                self.then_body.gen_vhdl(writer)
-        if not self.else_body.is_null:
+                for stmt in self.__then.statement_gen:
+                    stmt.gen_vhdl(writer)
+        if not self.__else.is_null:
             header = 'else'
             footer = 'end'
             with SimpleBlock(writer, header, footer):
-                self.else_body.gen_vhdl(writer)
+                for stmt in self.__else.statement_gen:
+                    stmt.gen_vhdl(writer)
 
 
 class CaseStatement(Statement):
@@ -206,7 +214,7 @@ class CaseStatement(Statement):
         """
         block = StatementBlock()
         self.__case_list.append((label, block))
-        return block
+        return StmtContext(block)
 
     @property
     def case_gen(self):
@@ -219,11 +227,11 @@ class CaseStatement(Statement):
 
         :param VerilogWriter writer: Verilog-HDL出力器
         """
-        header = 'case ( {} )'.format(self.cond.verilog_str)
+        header = f'case ( {self.cond.verilog_str} )'
         footer = 'endcase'
         with SimpleBlock(writer, header, footer):
             for label, body in self.__case_list:
-                line = '{}:'.format(label.verilog_str)
+                line = f'{label.verilog_str}:'
                 writer.write_line(line)
                 with SimpleBlock(writer, '', ''):
                     body.gen_verilog(writer)
@@ -233,7 +241,7 @@ class CaseStatement(Statement):
 
         :param VhdlWriter writer: VHDL出力器
         """
-        header = 'case {} is'.format(self.cond.vhdl_str)
+        header = f'case {self.cond.vhdl_str} is'
         footer = 'end case'
         with SimpleBlock(writer, header, footer):
             for label, body in self.__case_list:
@@ -253,6 +261,11 @@ class StatementBlock:
             return True
         else:
             return False
+
+    @property
+    def statement_gen(self):
+        for stmt in self.__statement_list:
+            yield stmt
 
     def add_assign(self, lhs, rhs,
                    *, blocking=False):
@@ -295,6 +308,137 @@ class StatementBlock:
 
         :param VerilogWriter writer: Verilog-HDL出力器
         """
+        header = 'begin'
+        footer = 'end'
+        with SimpleBlock(writer, header, footer):
+            if self.is_null:
+                writer.write_line(';')
+            else:
+                for statement in self.__statement_list:
+                    statement.gen_verilog(writer)
+
+    def gen_vhdl(self, writer):
+        """VHDL記述を生成する
+
+        :param VhdlWriter writer: VHDL出力器
+        """
+        header = 'begin'
+        footer = 'end'
+        with SimpleBlock(writer, header, footer):
+            if self.is_null:
+                writer.write_line(';')
+            else:
+                for statement in self.__statement_list:
+                    statement.gen_vhdl(writer)
+
+
+class NamedStatementBlock(StatementBlock):
+    """Statement を保持するクラス(名前付き)
+    """
+
+    def __init__(self, name):
+        super().__init__()
+        self.__item_mgr = ItemMgr(name)
+
+    @property
+    def name(self):
+        """名前を返す.
+
+        :rtype: str
+        """
+        return self.__item_mgr.name
+
+    def reg_item(self, item):
+        """要素を登録する．
+
+        :param Item item: 登録する要素
+        """
+        self.__item_mgr.reg_item(item)
+
+    @property
+    def net_num(self):
+        """ネット数を返す．
+
+        :rtype: int
+        """
+        return self.__item_mgr.net_num
+
+    def net(self, pos):
+        """pos 番目のネットを返す．
+
+        :param int pos: 位置
+        :rtype: Net
+        :rise: AssertError (pos が範囲外)
+        """
+        return self.__item_mgr.net(pos)
+
+    @property
+    def net_gen(self):
+        """ネットリストのジェネレーターを返す．"""
+        return self.__item_mgr.net_gen
+
+    def add_net(self, *, name=None, data_type=None, reg_type=False, src=None):
+        """ネットを生成する．
+
+        :param str Name: 名前(名前付きのオプション引数)
+        :param DataType data_type: データタイプ(名前付きのオプション引数)
+        :return: 生成したネットを返す．
+        :rtype: Net
+        """
+        net = self.__item_mgr.add_net(name=name,
+                                      data_type=data_type,
+                                      reg_type=reg_type,
+                                      src=src)
+        if src is not None:
+            self.connect(net, src)
+        return net
+
+    @property
+    def var_num(self):
+        """変数の数を返す．
+
+        :rtype: int
+        """
+        return self.__item_mgr.var_num
+
+    def var(self, pos):
+        """pos 番目の変数を返す．
+
+        :param int pos: 位置
+        :rtype: Var
+        :rise: AssertError (pos が範囲外)
+        """
+        return self.__item_mgr.var(pos)
+
+    @property
+    def var_gen(self):
+        """変数リストのジェネレーターを返す．"""
+        return self.__item_mgr.var_gen
+
+    def add_var(self, *, name=None, data_type=None):
+        """変数を生成する．
+
+        :param str Name: 名前(名前付きのオプション引数)
+        :param DataType data_type: データタイプ(名前付きのオプション引数)
+        :return: 生成した変数を返す．
+        :rtype: Var
+        """
+        return self.__item_mgr.add_var(name=name, data_type=data_type)
+
+    def gen_verilog(self, writer):
+        """Verilog-HDL記述を生成する
+
+        :param VerilogWriter writer: Verilog-HDL出力器
+        """
+        header = f'begin: {self.name}'
+        footer = 'end'
+        with SimpleBlock(writer, header, footer):
+            self.__item_mgr.gen_verilog(writer)
+            if self.is_null:
+                writer.write_line(';')
+            else:
+                for statement in self.__statement_list:
+                    statement.gen_verilog(writer)
         for statement in self.__statement_list:
             statement.gen_verilog(writer)
 
@@ -303,5 +447,12 @@ class StatementBlock:
 
         :param VhdlWriter writer: VHDL出力器
         """
-        for statement in self.__statement_list:
-            statement.gen_vhdl(writer)
+        header = f'begin: {self.name}'
+        footer = 'end'
+        with SimpleBlock(writer, header, footer):
+            self.__item_mgr.gen_vhdl(writer)
+            if self.is_null:
+                writer.write_line(';')
+            else:
+                for statement in self.__statement_list:
+                    statement.gen_vhdl(writer)

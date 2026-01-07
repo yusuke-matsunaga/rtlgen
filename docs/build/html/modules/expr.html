@@ -4,7 +4,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Expr &#8212; RTL-gen 1.0.0 ドキュメント</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
@@ -44,16 +46,16 @@
           <div class="body" role="main">
             
   <section id="expr">
-<span id="id1"></span><h1>Expr<a class="headerlink" href="#expr" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>Expr<a class="headerlink" href="#expr" title="この見出しへのパーマリンク">¶</a></h1>
 <p>式の定義.</p>
 <dl class="field-list simple">
-<dt class="field-odd">file</dt>
+<dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p>expr.py</p>
 </dd>
-<dt class="field-even">author</dt>
+<dt class="field-even">author<span class="colon">:</span></dt>
 <dd class="field-even"><p>Yusuke Matsunaga (松永 裕介)</p>
 </dd>
-<dt class="field-odd">copyright</dt>
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
 <dd class="field-odd"><ol class="upperalpha simple" start="3">
 <li><p>2021 Yusuke Matsunaga, All rights reserved.</p></li>
 </ol>
@@ -62,10 +64,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">BinaryOp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.OpBase</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">OpBase</span></code></p>
 <p>二項演算子を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>op_type</strong> (<em>OpType</em>) -- 演算子の型</p></li>
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第一オペランド</p></li>
@@ -78,7 +80,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -89,7 +91,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operand1</span></span></dt>
 <dd><p>第一オペランドを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Expr</p>
 </dd>
 </dl>
@@ -100,7 +102,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operand2</span></span></dt>
 <dd><p>第二オペランドを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Expr</p>
 </dd>
 </dl>
@@ -123,10 +125,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">BitSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>ビット選択演算を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>primary</strong> (<em>Expr</em>) -- 対象の式</p></li>
 <li><p><strong>index</strong> (<em>Expr</em>) -- インデックス</p></li>
@@ -138,7 +140,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -173,14 +175,14 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">Concat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_list</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>連結演算子</p>
 <dl class="py property">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -208,10 +210,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">Constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>定数を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データ型</p></li>
 <li><p><strong>val</strong> (<em>int</em>) -- 値</p></li>
@@ -223,10 +225,10 @@
 <span class="sig-name descname"><span class="pre">bit_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ビットの値を返す．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>bit</strong> (<em>int</em>) -- 対象のビット</p>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>bit の位置の値(True|False) を返す．</p>
 </dd>
 </dl>
@@ -237,7 +239,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -248,7 +250,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span></dt>
 <dd><p>値を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -285,13 +287,13 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bit_select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ビット選択演算を作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>primary</strong> (<em>Expr</em>) -- 選択対象の式</p></li>
 <li><p><strong>index</strong> (<em>Expr</em>) -- インデックス</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>BitSelect</p>
 </dd>
 </dl>
@@ -308,10 +310,10 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr_list</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>連結演算</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>expr_list</strong> (<em>list</em><em>(</em><em>Expr</em><em>)</em>) -- 式のリスト</p>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>Concat</p>
 </dd>
 </dl>
@@ -327,7 +329,7 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_size</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>ビット拡張を行う．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>src</strong> (<em>Expr</em>) -- ソースの式</p></li>
 <li><p><strong>dst_size</strong> (<em>int</em>) -- 結果のビット幅</p></li>
@@ -338,19 +340,25 @@
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_simple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>単純な式の時に True を返す．</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>加算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -361,16 +369,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise AND演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -381,7 +389,7 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type=&lt;rtlgen.data_type.BitType</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>定数を作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_type</strong> (<em>DataType</em>) -- データ型</p></li>
 <li><p><strong>val</strong> (<em>int</em>) -- 値</p></li>
@@ -395,16 +403,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_div</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>除算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -415,16 +423,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_eq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>等価比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -435,16 +443,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_ge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>大なりイコール比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -455,16 +463,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_gt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>大なり比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -475,7 +483,7 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_intconstant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>int型の定数を作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<em>int</em>) -- 値</p>
 </dd>
 </dl>
@@ -486,16 +494,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_land</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>AND演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -506,16 +514,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_le</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>小なりイコール比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -526,14 +534,34 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>NOT演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>opr1</strong> (<em>Expr</em>) -- オペランド</p>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>UnaryOp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>OR演算を作る.</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
+<li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>作成した演算子を返す．</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
 </dd></dl>
@@ -543,16 +571,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lsft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>左シフト演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -563,16 +591,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>小なり比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -583,16 +611,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>剰余算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -603,16 +631,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>乗算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -623,16 +651,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise NAND演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -643,16 +671,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_ne</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>不等価比較演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -663,16 +691,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_nor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise NOR演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -683,13 +711,13 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_not</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise NOT演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>opr1</strong> (<em>Expr</em>) -- オペランド</p>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -704,18 +732,18 @@
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>OR演算を作る.</p>
+<dd><p>bitwise OR演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -726,16 +754,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_rsft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>右シフト演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -746,16 +774,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>減算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -766,13 +794,13 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_uminus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>単項マイナス演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>opr1</strong> (<em>Expr</em>) -- オペランド</p>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>UnaryOp</p>
 </dd>
 </dl>
@@ -783,16 +811,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_xnor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise XNOR演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -803,16 +831,16 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>bitwise XOR演算を作る.</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- 第1オペランド</p></li>
 <li><p><strong>opr2</strong> (<em>Expr</em>) -- 第2オペランド</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値</dt>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
 <dd class="field-even"><p>作成した演算子を返す．</p>
 </dd>
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BinaryOp</p>
 </dd>
 </dl>
@@ -829,13 +857,13 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">multi_concat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr_list</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>繰り返し連結演算</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rep_num</strong> (<em>int</em>) -- 繰り返し数</p></li>
 <li><p><strong>expr_list</strong> (<em>list</em><em>(</em><em>Expr</em><em>)</em>) -- 式のリスト</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>MultiConcat</p>
 </dd>
 </dl>
@@ -852,14 +880,14 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">part_select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>範囲選択演算を作る．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>primary</strong> (<em>Expr</em>) -- 選択対象の式</p></li>
 <li><p><strong>left</strong> (<em>Expr</em>) -- 左の範囲</p></li>
 <li><p><strong>right</strong> (<em>Expr</em>) -- 右の範囲</p></li>
 </ul>
 </dd>
-<dt class="field-even">戻り値の型</dt>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>PartSelect</p>
 </dd>
 </dl>
@@ -888,7 +916,7 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sign_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_size</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>符号付きのビット拡張を行う．</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>src</strong> (<em>Expr</em>) -- ソースの式</p></li>
 <li><p><strong>dst_size</strong> (<em>int</em>) -- 結果のビット幅</p></li>
@@ -921,10 +949,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">IntConstant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Constant</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Constant</span></code></p>
 <p>integer 型の定数を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<em>int</em>) -- 値</p>
 </dd>
 </dl>
@@ -933,14 +961,14 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">MultiConcat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_list</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>繰り返し連結演算子</p>
 <dl class="py property">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -974,10 +1002,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">OpBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_type</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>演算子を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>op_type</strong> (<em>OpType</em>) -- 演算子の型</p>
 </dd>
 </dl>
@@ -986,7 +1014,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">op_type</span></span></dt>
 <dd><p>演算子の型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>OpType</p>
 </dd>
 </dl>
@@ -996,8 +1024,8 @@
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">OpType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">OpType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>演算の種類を表す列挙型</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
@@ -1159,10 +1187,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">PartSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.Expr</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code></p>
 <p>範囲選択演算を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>primary</strong> (<em>Expr</em>) -- 対象の式</p></li>
 <li><p><strong>left</strong> (<em>Expr</em>) -- 左の範囲</p></li>
@@ -1175,7 +1203,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -1222,10 +1250,10 @@
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtlgen.expr.</span></span><span class="sig-name descname"><span class="pre">UnaryOp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opr1</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">rtlgen.expr.OpBase</span></code></p>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">OpBase</span></code></p>
 <p>単項演算子を表すクラス</p>
 <dl class="field-list simple">
-<dt class="field-odd">パラメータ</dt>
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>OpType</strong> -- op_type 演算子の型</p></li>
 <li><p><strong>opr1</strong> (<em>Expr</em>) -- オペランド</p></li>
@@ -1237,7 +1265,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span></dt>
 <dd><p>データ型を返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataType</p>
 </dd>
 </dl>
@@ -1248,7 +1276,7 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operand1</span></span></dt>
 <dd><p>第一オペランドを返す.</p>
 <dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Expr</p>
 </dd>
 </dl>
@@ -1303,7 +1331,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1327,7 +1355,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Yusuke Matsunaga.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>
