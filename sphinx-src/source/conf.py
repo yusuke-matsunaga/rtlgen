@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../../srcs'))
 # -- Project information -----------------------------------------------------
 
 project = 'RTL-gen'
-copyright = '2021, Yusuke Matsunaga'
+copyright = '2026, Yusuke Matsunaga'
 author = 'Yusuke Matsunaga'
 
 # The full version, including alpha/beta/rc tags
@@ -31,8 +31,13 @@ release = '1.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
 ]
+
+source_suffix = {
+    '.rst': 'restructuredtext'
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

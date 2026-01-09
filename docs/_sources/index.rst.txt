@@ -15,6 +15,7 @@ Python 上でRTL記述の部品を生成することで，
    :caption: Contents:
 
    getting_started
+   modules
    modules/classes
 
 

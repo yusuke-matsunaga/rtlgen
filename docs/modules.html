@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>rtlgen &#8212; RTL-gen 1.0.0 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rtlgen</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="rtlgen">
+<h1>rtlgen<a class="headerlink" href="#rtlgen" title="この見出しへのパーマリンク">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rtlgen.html">rtlgen package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.cont_assign">rtlgen.cont_assign module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.cont_assign.ContAssign"><code class="docutils literal notranslate"><span class="pre">ContAssign</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.cont_assign.ContAssign.lhs"><code class="docutils literal notranslate"><span class="pre">ContAssign.lhs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.cont_assign.ContAssign.rhs"><code class="docutils literal notranslate"><span class="pre">ContAssign.rhs</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.data_type">rtlgen.data_type module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.ArrayType"><code class="docutils literal notranslate"><span class="pre">ArrayType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.ArrayType.is_array_type"><code class="docutils literal notranslate"><span class="pre">ArrayType.is_array_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.ArrayType.subtype"><code class="docutils literal notranslate"><span class="pre">ArrayType.subtype</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.BitType"><code class="docutils literal notranslate"><span class="pre">BitType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.BitType.is_bit_type"><code class="docutils literal notranslate"><span class="pre">BitType.is_bit_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.BitVectorType"><code class="docutils literal notranslate"><span class="pre">BitVectorType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.BitVectorType.is_bitvector_type"><code class="docutils literal notranslate"><span class="pre">BitVectorType.is_bitvector_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType"><code class="docutils literal notranslate"><span class="pre">DataType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.array_type"><code class="docutils literal notranslate"><span class="pre">DataType.array_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.bit_type"><code class="docutils literal notranslate"><span class="pre">DataType.bit_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.bitlen"><code class="docutils literal notranslate"><span class="pre">DataType.bitlen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.bitvector_type"><code class="docutils literal notranslate"><span class="pre">DataType.bitvector_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.float_type"><code class="docutils literal notranslate"><span class="pre">DataType.float_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.integer_type"><code class="docutils literal notranslate"><span class="pre">DataType.integer_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_array_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_array_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_bit_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_bit_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_bitvector_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_bitvector_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_float_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_float_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_integer_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_integer_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_record_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_record_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.is_signedbitvector_type"><code class="docutils literal notranslate"><span class="pre">DataType.is_signedbitvector_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.record_type"><code class="docutils literal notranslate"><span class="pre">DataType.record_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.DataType.signed_bitvector_type"><code class="docutils literal notranslate"><span class="pre">DataType.signed_bitvector_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.FloatType"><code class="docutils literal notranslate"><span class="pre">FloatType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.FloatType.is_float_type"><code class="docutils literal notranslate"><span class="pre">FloatType.is_float_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.IntegerType"><code class="docutils literal notranslate"><span class="pre">IntegerType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.IntegerType.is_integer_type"><code class="docutils literal notranslate"><span class="pre">IntegerType.is_integer_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.RecordType"><code class="docutils literal notranslate"><span class="pre">RecordType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.RecordType.is_record_type"><code class="docutils literal notranslate"><span class="pre">RecordType.is_record_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.RecordType.record_list"><code class="docutils literal notranslate"><span class="pre">RecordType.record_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.RecordType.record_type"><code class="docutils literal notranslate"><span class="pre">RecordType.record_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.SignedBitVectorType"><code class="docutils literal notranslate"><span class="pre">SignedBitVectorType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.SignedBitVectorType.is_signedbitvector_type"><code class="docutils literal notranslate"><span class="pre">SignedBitVectorType.is_signedbitvector_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.SizedType"><code class="docutils literal notranslate"><span class="pre">SizedType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.data_type.SizedType.size"><code class="docutils literal notranslate"><span class="pre">SizedType.size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.dff">rtlgen.dff module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff"><code class="docutils literal notranslate"><span class="pre">Dff</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff.data_in"><code class="docutils literal notranslate"><span class="pre">Dff.data_in</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff.enable"><code class="docutils literal notranslate"><span class="pre">Dff.enable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff.output"><code class="docutils literal notranslate"><span class="pre">Dff.output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff.q"><code class="docutils literal notranslate"><span class="pre">Dff.q</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.dff.Dff.reset"><code class="docutils literal notranslate"><span class="pre">Dff.reset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.dff.add_delay"><code class="docutils literal notranslate"><span class="pre">add_delay()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.dff.add_dff"><code class="docutils literal notranslate"><span class="pre">add_dff()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.entity">rtlgen.entity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_clocked_process"><code class="docutils literal notranslate"><span class="pre">Entity.add_clocked_process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_comb_process"><code class="docutils literal notranslate"><span class="pre">Entity.add_comb_process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_delay"><code class="docutils literal notranslate"><span class="pre">Entity.add_delay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_dff"><code class="docutils literal notranslate"><span class="pre">Entity.add_dff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_inout_port"><code class="docutils literal notranslate"><span class="pre">Entity.add_inout_port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_input_port"><code class="docutils literal notranslate"><span class="pre">Entity.add_input_port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_inst"><code class="docutils literal notranslate"><span class="pre">Entity.add_inst()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_linear_fsm"><code class="docutils literal notranslate"><span class="pre">Entity.add_linear_fsm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_lut"><code class="docutils literal notranslate"><span class="pre">Entity.add_lut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_mux2"><code class="docutils literal notranslate"><span class="pre">Entity.add_mux2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_net"><code class="docutils literal notranslate"><span class="pre">Entity.add_net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_output_port"><code class="docutils literal notranslate"><span class="pre">Entity.add_output_port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.add_var"><code class="docutils literal notranslate"><span class="pre">Entity.add_var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.block"><code class="docutils literal notranslate"><span class="pre">Entity.block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.block_gen"><code class="docutils literal notranslate"><span class="pre">Entity.block_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.block_num"><code class="docutils literal notranslate"><span class="pre">Entity.block_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.connect"><code class="docutils literal notranslate"><span class="pre">Entity.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.cont_assign_gen"><code class="docutils literal notranslate"><span class="pre">Entity.cont_assign_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.cont_assign_num"><code class="docutils literal notranslate"><span class="pre">Entity.cont_assign_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.default_clock"><code class="docutils literal notranslate"><span class="pre">Entity.default_clock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.default_clock_pol"><code class="docutils literal notranslate"><span class="pre">Entity.default_clock_pol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.default_reset"><code class="docutils literal notranslate"><span class="pre">Entity.default_reset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.default_reset_pol"><code class="docutils literal notranslate"><span class="pre">Entity.default_reset_pol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.find_port"><code class="docutils literal notranslate"><span class="pre">Entity.find_port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.gen_entity_sub"><code class="docutils literal notranslate"><span class="pre">Entity.gen_entity_sub()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.gen_verilog"><code class="docutils literal notranslate"><span class="pre">Entity.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.item"><code class="docutils literal notranslate"><span class="pre">Entity.item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.item_gen"><code class="docutils literal notranslate"><span class="pre">Entity.item_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.item_num"><code class="docutils literal notranslate"><span class="pre">Entity.item_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.make_names"><code class="docutils literal notranslate"><span class="pre">Entity.make_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.name"><code class="docutils literal notranslate"><span class="pre">Entity.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.net"><code class="docutils literal notranslate"><span class="pre">Entity.net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.net_gen"><code class="docutils literal notranslate"><span class="pre">Entity.net_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.net_num"><code class="docutils literal notranslate"><span class="pre">Entity.net_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.port"><code class="docutils literal notranslate"><span class="pre">Entity.port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.port_gen"><code class="docutils literal notranslate"><span class="pre">Entity.port_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.port_num"><code class="docutils literal notranslate"><span class="pre">Entity.port_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.reg_block"><code class="docutils literal notranslate"><span class="pre">Entity.reg_block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.reg_item"><code class="docutils literal notranslate"><span class="pre">Entity.reg_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.set_default_clock"><code class="docutils literal notranslate"><span class="pre">Entity.set_default_clock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.set_default_reset"><code class="docutils literal notranslate"><span class="pre">Entity.set_default_reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.var"><code class="docutils literal notranslate"><span class="pre">Entity.var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.var_gen"><code class="docutils literal notranslate"><span class="pre">Entity.var_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.var_num"><code class="docutils literal notranslate"><span class="pre">Entity.var_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.write_verilog"><code class="docutils literal notranslate"><span class="pre">Entity.write_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity.Entity.write_vhdl"><code class="docutils literal notranslate"><span class="pre">Entity.write_vhdl()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.entity_mgr">rtlgen.entity_mgr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.entity_mgr.EntityMgr"><code class="docutils literal notranslate"><span class="pre">EntityMgr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity_mgr.EntityMgr.add_entity"><code class="docutils literal notranslate"><span class="pre">EntityMgr.add_entity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity_mgr.EntityMgr.entity_gen"><code class="docutils literal notranslate"><span class="pre">EntityMgr.entity_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.entity_mgr.EntityMgr.get_entity_list"><code class="docutils literal notranslate"><span class="pre">EntityMgr.get_entity_list()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.expr">rtlgen.expr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp"><code class="docutils literal notranslate"><span class="pre">BinaryOp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp.data_type"><code class="docutils literal notranslate"><span class="pre">BinaryOp.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp.operand1"><code class="docutils literal notranslate"><span class="pre">BinaryOp.operand1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp.operand2"><code class="docutils literal notranslate"><span class="pre">BinaryOp.operand2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp.verilog_str"><code class="docutils literal notranslate"><span class="pre">BinaryOp.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BinaryOp.vhdl_str"><code class="docutils literal notranslate"><span class="pre">BinaryOp.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect"><code class="docutils literal notranslate"><span class="pre">BitSelect</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect.data_type"><code class="docutils literal notranslate"><span class="pre">BitSelect.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect.index"><code class="docutils literal notranslate"><span class="pre">BitSelect.index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect.primary"><code class="docutils literal notranslate"><span class="pre">BitSelect.primary</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect.verilog_str"><code class="docutils literal notranslate"><span class="pre">BitSelect.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.BitSelect.vhdl_str"><code class="docutils literal notranslate"><span class="pre">BitSelect.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Concat"><code class="docutils literal notranslate"><span class="pre">Concat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Concat.data_type"><code class="docutils literal notranslate"><span class="pre">Concat.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Concat.src_list"><code class="docutils literal notranslate"><span class="pre">Concat.src_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Concat.verilog_str"><code class="docutils literal notranslate"><span class="pre">Concat.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Concat.vhdl_str"><code class="docutils literal notranslate"><span class="pre">Concat.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant"><code class="docutils literal notranslate"><span class="pre">Constant</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant.bit_value"><code class="docutils literal notranslate"><span class="pre">Constant.bit_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant.data_type"><code class="docutils literal notranslate"><span class="pre">Constant.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant.value"><code class="docutils literal notranslate"><span class="pre">Constant.value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant.verilog_str"><code class="docutils literal notranslate"><span class="pre">Constant.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Constant.vhdl_str"><code class="docutils literal notranslate"><span class="pre">Constant.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr"><code class="docutils literal notranslate"><span class="pre">Expr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.add_ref"><code class="docutils literal notranslate"><span class="pre">Expr.add_ref()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.bit_select"><code class="docutils literal notranslate"><span class="pre">Expr.bit_select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.coerce"><code class="docutils literal notranslate"><span class="pre">Expr.coerce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.concat"><code class="docutils literal notranslate"><span class="pre">Expr.concat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.del_ref"><code class="docutils literal notranslate"><span class="pre">Expr.del_ref()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.extension"><code class="docutils literal notranslate"><span class="pre">Expr.extension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.is_simple"><code class="docutils literal notranslate"><span class="pre">Expr.is_simple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_add"><code class="docutils literal notranslate"><span class="pre">Expr.make_add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_and"><code class="docutils literal notranslate"><span class="pre">Expr.make_and()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_constant"><code class="docutils literal notranslate"><span class="pre">Expr.make_constant()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_div"><code class="docutils literal notranslate"><span class="pre">Expr.make_div()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_eq"><code class="docutils literal notranslate"><span class="pre">Expr.make_eq()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_ge"><code class="docutils literal notranslate"><span class="pre">Expr.make_ge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_gt"><code class="docutils literal notranslate"><span class="pre">Expr.make_gt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_intconstant"><code class="docutils literal notranslate"><span class="pre">Expr.make_intconstant()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_land"><code class="docutils literal notranslate"><span class="pre">Expr.make_land()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_le"><code class="docutils literal notranslate"><span class="pre">Expr.make_le()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_lnot"><code class="docutils literal notranslate"><span class="pre">Expr.make_lnot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_lor"><code class="docutils literal notranslate"><span class="pre">Expr.make_lor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_lsft"><code class="docutils literal notranslate"><span class="pre">Expr.make_lsft()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_lt"><code class="docutils literal notranslate"><span class="pre">Expr.make_lt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_mod"><code class="docutils literal notranslate"><span class="pre">Expr.make_mod()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_mul"><code class="docutils literal notranslate"><span class="pre">Expr.make_mul()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_nand"><code class="docutils literal notranslate"><span class="pre">Expr.make_nand()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_ne"><code class="docutils literal notranslate"><span class="pre">Expr.make_ne()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_nor"><code class="docutils literal notranslate"><span class="pre">Expr.make_nor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_not"><code class="docutils literal notranslate"><span class="pre">Expr.make_not()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_one"><code class="docutils literal notranslate"><span class="pre">Expr.make_one()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_or"><code class="docutils literal notranslate"><span class="pre">Expr.make_or()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_rsft"><code class="docutils literal notranslate"><span class="pre">Expr.make_rsft()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_sub"><code class="docutils literal notranslate"><span class="pre">Expr.make_sub()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_uminus"><code class="docutils literal notranslate"><span class="pre">Expr.make_uminus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_xnor"><code class="docutils literal notranslate"><span class="pre">Expr.make_xnor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_xor"><code class="docutils literal notranslate"><span class="pre">Expr.make_xor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.make_zero"><code class="docutils literal notranslate"><span class="pre">Expr.make_zero()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.multi_concat"><code class="docutils literal notranslate"><span class="pre">Expr.multi_concat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.needs_net"><code class="docutils literal notranslate"><span class="pre">Expr.needs_net</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.part_select"><code class="docutils literal notranslate"><span class="pre">Expr.part_select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.ref0"><code class="docutils literal notranslate"><span class="pre">Expr.ref0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.ref_list"><code class="docutils literal notranslate"><span class="pre">Expr.ref_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.ref_num"><code class="docutils literal notranslate"><span class="pre">Expr.ref_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.Expr.sign_extension"><code class="docutils literal notranslate"><span class="pre">Expr.sign_extension()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.ExprHandle"><code class="docutils literal notranslate"><span class="pre">ExprHandle</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.ExprHandle.set"><code class="docutils literal notranslate"><span class="pre">ExprHandle.set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.ExprHandle.val"><code class="docutils literal notranslate"><span class="pre">ExprHandle.val</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.IntConstant"><code class="docutils literal notranslate"><span class="pre">IntConstant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat"><code class="docutils literal notranslate"><span class="pre">MultiConcat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat.data_type"><code class="docutils literal notranslate"><span class="pre">MultiConcat.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat.rep_num"><code class="docutils literal notranslate"><span class="pre">MultiConcat.rep_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat.src_list"><code class="docutils literal notranslate"><span class="pre">MultiConcat.src_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat.verilog_str"><code class="docutils literal notranslate"><span class="pre">MultiConcat.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.MultiConcat.vhdl_str"><code class="docutils literal notranslate"><span class="pre">MultiConcat.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpBase"><code class="docutils literal notranslate"><span class="pre">OpBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpBase.op_type"><code class="docutils literal notranslate"><span class="pre">OpBase.op_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType"><code class="docutils literal notranslate"><span class="pre">OpType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.ADD"><code class="docutils literal notranslate"><span class="pre">OpType.ADD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.AND"><code class="docutils literal notranslate"><span class="pre">OpType.AND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.BSEL"><code class="docutils literal notranslate"><span class="pre">OpType.BSEL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.COMPL"><code class="docutils literal notranslate"><span class="pre">OpType.COMPL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.DIV"><code class="docutils literal notranslate"><span class="pre">OpType.DIV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.EQ"><code class="docutils literal notranslate"><span class="pre">OpType.EQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LAND"><code class="docutils literal notranslate"><span class="pre">OpType.LAND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LE"><code class="docutils literal notranslate"><span class="pre">OpType.LE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LNOT"><code class="docutils literal notranslate"><span class="pre">OpType.LNOT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LOR"><code class="docutils literal notranslate"><span class="pre">OpType.LOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LSFT"><code class="docutils literal notranslate"><span class="pre">OpType.LSFT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.LT"><code class="docutils literal notranslate"><span class="pre">OpType.LT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.MOD"><code class="docutils literal notranslate"><span class="pre">OpType.MOD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.MUL"><code class="docutils literal notranslate"><span class="pre">OpType.MUL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.NAND"><code class="docutils literal notranslate"><span class="pre">OpType.NAND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.NE"><code class="docutils literal notranslate"><span class="pre">OpType.NE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.NOR"><code class="docutils literal notranslate"><span class="pre">OpType.NOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.NOT"><code class="docutils literal notranslate"><span class="pre">OpType.NOT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.OR"><code class="docutils literal notranslate"><span class="pre">OpType.OR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.PSEL"><code class="docutils literal notranslate"><span class="pre">OpType.PSEL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RAND"><code class="docutils literal notranslate"><span class="pre">OpType.RAND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RNAND"><code class="docutils literal notranslate"><span class="pre">OpType.RNAND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RNOR"><code class="docutils literal notranslate"><span class="pre">OpType.RNOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.ROR"><code class="docutils literal notranslate"><span class="pre">OpType.ROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RSEL"><code class="docutils literal notranslate"><span class="pre">OpType.RSEL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RSFT"><code class="docutils literal notranslate"><span class="pre">OpType.RSFT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RXNOR"><code class="docutils literal notranslate"><span class="pre">OpType.RXNOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.RXOR"><code class="docutils literal notranslate"><span class="pre">OpType.RXOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.SUB"><code class="docutils literal notranslate"><span class="pre">OpType.SUB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.XNOR"><code class="docutils literal notranslate"><span class="pre">OpType.XNOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.OpType.XOR"><code class="docutils literal notranslate"><span class="pre">OpType.XOR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect"><code class="docutils literal notranslate"><span class="pre">PartSelect</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.data_type"><code class="docutils literal notranslate"><span class="pre">PartSelect.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.direction"><code class="docutils literal notranslate"><span class="pre">PartSelect.direction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.left"><code class="docutils literal notranslate"><span class="pre">PartSelect.left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.primary"><code class="docutils literal notranslate"><span class="pre">PartSelect.primary</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.right"><code class="docutils literal notranslate"><span class="pre">PartSelect.right</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.verilog_str"><code class="docutils literal notranslate"><span class="pre">PartSelect.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.PartSelect.vhdl_str"><code class="docutils literal notranslate"><span class="pre">PartSelect.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.expr.UnaryOp"><code class="docutils literal notranslate"><span class="pre">UnaryOp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.UnaryOp.data_type"><code class="docutils literal notranslate"><span class="pre">UnaryOp.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.UnaryOp.operand1"><code class="docutils literal notranslate"><span class="pre">UnaryOp.operand1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.UnaryOp.verilog_str"><code class="docutils literal notranslate"><span class="pre">UnaryOp.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.expr.UnaryOp.vhdl_str"><code class="docutils literal notranslate"><span class="pre">UnaryOp.vhdl_str</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.inst">rtlgen.inst module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst"><code class="docutils literal notranslate"><span class="pre">Inst</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.entity"><code class="docutils literal notranslate"><span class="pre">Inst.entity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.gen_verilog"><code class="docutils literal notranslate"><span class="pre">Inst.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">Inst.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.is_inst"><code class="docutils literal notranslate"><span class="pre">Inst.is_inst</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.port"><code class="docutils literal notranslate"><span class="pre">Inst.port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.port_gen"><code class="docutils literal notranslate"><span class="pre">Inst.port_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.inst.Inst.port_num"><code class="docutils literal notranslate"><span class="pre">Inst.port_num</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.inst.add_inst"><code class="docutils literal notranslate"><span class="pre">add_inst()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.item">rtlgen.item module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item"><code class="docutils literal notranslate"><span class="pre">Item</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.add_cont_assign"><code class="docutils literal notranslate"><span class="pre">Item.add_cont_assign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.add_net"><code class="docutils literal notranslate"><span class="pre">Item.add_net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.add_var"><code class="docutils literal notranslate"><span class="pre">Item.add_var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.is_inst"><code class="docutils literal notranslate"><span class="pre">Item.is_inst</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.name"><code class="docutils literal notranslate"><span class="pre">Item.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item.Item.set_name"><code class="docutils literal notranslate"><span class="pre">Item.set_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.item_mgr">rtlgen.item_mgr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr"><code class="docutils literal notranslate"><span class="pre">ItemMgr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.add_net"><code class="docutils literal notranslate"><span class="pre">ItemMgr.add_net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.add_var"><code class="docutils literal notranslate"><span class="pre">ItemMgr.add_var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.block"><code class="docutils literal notranslate"><span class="pre">ItemMgr.block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.block_gen"><code class="docutils literal notranslate"><span class="pre">ItemMgr.block_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.block_num"><code class="docutils literal notranslate"><span class="pre">ItemMgr.block_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.gen_verilog"><code class="docutils literal notranslate"><span class="pre">ItemMgr.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.item"><code class="docutils literal notranslate"><span class="pre">ItemMgr.item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.item_gen"><code class="docutils literal notranslate"><span class="pre">ItemMgr.item_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.item_num"><code class="docutils literal notranslate"><span class="pre">ItemMgr.item_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.make_names"><code class="docutils literal notranslate"><span class="pre">ItemMgr.make_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.name"><code class="docutils literal notranslate"><span class="pre">ItemMgr.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.net"><code class="docutils literal notranslate"><span class="pre">ItemMgr.net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.net_gen"><code class="docutils literal notranslate"><span class="pre">ItemMgr.net_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.net_num"><code class="docutils literal notranslate"><span class="pre">ItemMgr.net_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.reg_block"><code class="docutils literal notranslate"><span class="pre">ItemMgr.reg_block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.reg_item"><code class="docutils literal notranslate"><span class="pre">ItemMgr.reg_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.reg_name"><code class="docutils literal notranslate"><span class="pre">ItemMgr.reg_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.var"><code class="docutils literal notranslate"><span class="pre">ItemMgr.var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.var_gen"><code class="docutils literal notranslate"><span class="pre">ItemMgr.var_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.item_mgr.ItemMgr.var_num"><code class="docutils literal notranslate"><span class="pre">ItemMgr.var_num</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.lfsm">rtlgen.lfsm module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.lfsm.add_linear_fsm"><code class="docutils literal notranslate"><span class="pre">add_linear_fsm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.lut">rtlgen.lut module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut"><code class="docutils literal notranslate"><span class="pre">Lut</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.add_data"><code class="docutils literal notranslate"><span class="pre">Lut.add_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.data_gen"><code class="docutils literal notranslate"><span class="pre">Lut.data_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.gen_verilog"><code class="docutils literal notranslate"><span class="pre">Lut.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">Lut.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.input"><code class="docutils literal notranslate"><span class="pre">Lut.input</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.lut.Lut.output"><code class="docutils literal notranslate"><span class="pre">Lut.output</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.lut.add_lut"><code class="docutils literal notranslate"><span class="pre">add_lut()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.mux">rtlgen.mux module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.mux.add_mux2"><code class="docutils literal notranslate"><span class="pre">add_mux2()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.net">rtlgen.net module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net"><code class="docutils literal notranslate"><span class="pre">Net</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.data_type"><code class="docutils literal notranslate"><span class="pre">Net.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.is_simple"><code class="docutils literal notranslate"><span class="pre">Net.is_simple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.name"><code class="docutils literal notranslate"><span class="pre">Net.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.needs_net"><code class="docutils literal notranslate"><span class="pre">Net.needs_net</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.reg_type"><code class="docutils literal notranslate"><span class="pre">Net.reg_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.set_name"><code class="docutils literal notranslate"><span class="pre">Net.set_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.verilog_str"><code class="docutils literal notranslate"><span class="pre">Net.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.net.Net.vhdl_str"><code class="docutils literal notranslate"><span class="pre">Net.vhdl_str</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.port">rtlgen.port module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.port.InoutPort"><code class="docutils literal notranslate"><span class="pre">InoutPort</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InoutPort.is_inout"><code class="docutils literal notranslate"><span class="pre">InoutPort.is_inout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InoutPort.is_output"><code class="docutils literal notranslate"><span class="pre">InoutPort.is_output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InoutPort.port_type"><code class="docutils literal notranslate"><span class="pre">InoutPort.port_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.port.InputPort"><code class="docutils literal notranslate"><span class="pre">InputPort</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InputPort.is_input"><code class="docutils literal notranslate"><span class="pre">InputPort.is_input</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InputPort.port_type"><code class="docutils literal notranslate"><span class="pre">InputPort.port_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InputPort.verilog_str"><code class="docutils literal notranslate"><span class="pre">InputPort.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.InputPort.vhdl_str"><code class="docutils literal notranslate"><span class="pre">InputPort.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.port.OutputPort"><code class="docutils literal notranslate"><span class="pre">OutputPort</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.OutputPort.is_output"><code class="docutils literal notranslate"><span class="pre">OutputPort.is_output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.OutputPort.port_type"><code class="docutils literal notranslate"><span class="pre">OutputPort.port_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.data_type"><code class="docutils literal notranslate"><span class="pre">Port.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.is_inout"><code class="docutils literal notranslate"><span class="pre">Port.is_inout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.is_input"><code class="docutils literal notranslate"><span class="pre">Port.is_input</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.is_output"><code class="docutils literal notranslate"><span class="pre">Port.is_output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.is_simple"><code class="docutils literal notranslate"><span class="pre">Port.is_simple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.name"><code class="docutils literal notranslate"><span class="pre">Port.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.needs_net"><code class="docutils literal notranslate"><span class="pre">Port.needs_net</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.set_name"><code class="docutils literal notranslate"><span class="pre">Port.set_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.verilog_str"><code class="docutils literal notranslate"><span class="pre">Port.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.Port.vhdl_str"><code class="docutils literal notranslate"><span class="pre">Port.vhdl_str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.port.PortType"><code class="docutils literal notranslate"><span class="pre">PortType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.PortType.INOUT"><code class="docutils literal notranslate"><span class="pre">PortType.INOUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.PortType.INPUT"><code class="docutils literal notranslate"><span class="pre">PortType.INPUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.port.PortType.OUTPUT"><code class="docutils literal notranslate"><span class="pre">PortType.OUTPUT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.process">rtlgen.process module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess"><code class="docutils literal notranslate"><span class="pre">ClockedProcess</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.add_async_stmt"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.add_async_stmt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.add_body_stmt"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.add_body_stmt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.asyncctl"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.asyncctl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.asyncctl_body"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.asyncctl_body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.asyncctl_pol"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.asyncctl_pol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.body"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.clock"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.clock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.clock_pol"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.clock_pol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.ClockedProcess.verilog_header"><code class="docutils literal notranslate"><span class="pre">ClockedProcess.verilog_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.process.CombProcess"><code class="docutils literal notranslate"><span class="pre">CombProcess</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.CombProcess.body"><code class="docutils literal notranslate"><span class="pre">CombProcess.body()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process"><code class="docutils literal notranslate"><span class="pre">Process</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process.add_body_stmt"><code class="docutils literal notranslate"><span class="pre">Process.add_body_stmt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process.gen_verilog"><code class="docutils literal notranslate"><span class="pre">Process.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">Process.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process.process_body"><code class="docutils literal notranslate"><span class="pre">Process.process_body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.process.Process.verilog_header"><code class="docutils literal notranslate"><span class="pre">Process.verilog_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.process.add_clocked_process"><code class="docutils literal notranslate"><span class="pre">add_clocked_process()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.process.add_comb_process"><code class="docutils literal notranslate"><span class="pre">add_comb_process()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.rtlerror">rtlgen.rtlerror module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.rtlerror.RtlError"><code class="docutils literal notranslate"><span class="pre">RtlError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.statement">rtlgen.statement module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.AssignBase"><code class="docutils literal notranslate"><span class="pre">AssignBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.AssignBase.lhs"><code class="docutils literal notranslate"><span class="pre">AssignBase.lhs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.AssignBase.rhs"><code class="docutils literal notranslate"><span class="pre">AssignBase.rhs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.BlockingAssign"><code class="docutils literal notranslate"><span class="pre">BlockingAssign</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.BlockingAssign.gen_verilog"><code class="docutils literal notranslate"><span class="pre">BlockingAssign.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.BlockingAssign.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">BlockingAssign.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.BlockingAssign.type"><code class="docutils literal notranslate"><span class="pre">BlockingAssign.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement"><code class="docutils literal notranslate"><span class="pre">CaseStatement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.add_label"><code class="docutils literal notranslate"><span class="pre">CaseStatement.add_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.case_gen"><code class="docutils literal notranslate"><span class="pre">CaseStatement.case_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.cond"><code class="docutils literal notranslate"><span class="pre">CaseStatement.cond</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.gen_verilog"><code class="docutils literal notranslate"><span class="pre">CaseStatement.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">CaseStatement.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.CaseStatement.type"><code class="docutils literal notranslate"><span class="pre">CaseStatement.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement"><code class="docutils literal notranslate"><span class="pre">IfStatement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.cond"><code class="docutils literal notranslate"><span class="pre">IfStatement.cond</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.else_body"><code class="docutils literal notranslate"><span class="pre">IfStatement.else_body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.gen_verilog"><code class="docutils literal notranslate"><span class="pre">IfStatement.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">IfStatement.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.then_body"><code class="docutils literal notranslate"><span class="pre">IfStatement.then_body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.IfStatement.type"><code class="docutils literal notranslate"><span class="pre">IfStatement.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.add_net"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.add_net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.add_var"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.add_var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.gen_verilog"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.name"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.net"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.net()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.net_gen"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.net_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.net_num"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.net_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.reg_item"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.reg_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.var"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.var_gen"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.var_gen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NamedStatementBlock.var_num"><code class="docutils literal notranslate"><span class="pre">NamedStatementBlock.var_num</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NonblockingAssign"><code class="docutils literal notranslate"><span class="pre">NonblockingAssign</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NonblockingAssign.gen_verilog"><code class="docutils literal notranslate"><span class="pre">NonblockingAssign.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NonblockingAssign.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">NonblockingAssign.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.NonblockingAssign.type"><code class="docutils literal notranslate"><span class="pre">NonblockingAssign.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.Statement"><code class="docutils literal notranslate"><span class="pre">Statement</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock"><code class="docutils literal notranslate"><span class="pre">StatementBlock</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.add_assign"><code class="docutils literal notranslate"><span class="pre">StatementBlock.add_assign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.add_case"><code class="docutils literal notranslate"><span class="pre">StatementBlock.add_case()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.add_if"><code class="docutils literal notranslate"><span class="pre">StatementBlock.add_if()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.gen_verilog"><code class="docutils literal notranslate"><span class="pre">StatementBlock.gen_verilog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.gen_vhdl"><code class="docutils literal notranslate"><span class="pre">StatementBlock.gen_vhdl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.is_null"><code class="docutils literal notranslate"><span class="pre">StatementBlock.is_null</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StatementBlock.statement_gen"><code class="docutils literal notranslate"><span class="pre">StatementBlock.statement_gen</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtContext"><code class="docutils literal notranslate"><span class="pre">StmtContext</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType"><code class="docutils literal notranslate"><span class="pre">StmtType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.BlockingAssign"><code class="docutils literal notranslate"><span class="pre">StmtType.BlockingAssign</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.CaseStatement"><code class="docutils literal notranslate"><span class="pre">StmtType.CaseStatement</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.IfStatement"><code class="docutils literal notranslate"><span class="pre">StmtType.IfStatement</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.NonblockingAssign"><code class="docutils literal notranslate"><span class="pre">StmtType.NonblockingAssign</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.StatementBlock"><code class="docutils literal notranslate"><span class="pre">StmtType.StatementBlock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.statement.StmtType.WhileStatement"><code class="docutils literal notranslate"><span class="pre">StmtType.WhileStatement</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.var">rtlgen.var module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var"><code class="docutils literal notranslate"><span class="pre">Var</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.data_type"><code class="docutils literal notranslate"><span class="pre">Var.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.is_simple"><code class="docutils literal notranslate"><span class="pre">Var.is_simple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.name"><code class="docutils literal notranslate"><span class="pre">Var.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.set_name"><code class="docutils literal notranslate"><span class="pre">Var.set_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.verilog_str"><code class="docutils literal notranslate"><span class="pre">Var.verilog_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.var.Var.vhdl_str"><code class="docutils literal notranslate"><span class="pre">Var.vhdl_str</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.verilog_writer">rtlgen.verilog_writer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogModule"><code class="docutils literal notranslate"><span class="pre">VerilogModule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogModule.on_enter"><code class="docutils literal notranslate"><span class="pre">VerilogModule.on_enter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogModule.on_exit"><code class="docutils literal notranslate"><span class="pre">VerilogModule.on_exit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter"><code class="docutils literal notranslate"><span class="pre">VerilogWriter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter.cond_str"><code class="docutils literal notranslate"><span class="pre">VerilogWriter.cond_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter.data_type_to_str"><code class="docutils literal notranslate"><span class="pre">VerilogWriter.data_type_to_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter.edge_str"><code class="docutils literal notranslate"><span class="pre">VerilogWriter.edge_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter.write_module_footer"><code class="docutils literal notranslate"><span class="pre">VerilogWriter.write_module_footer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.VerilogWriter.write_module_header"><code class="docutils literal notranslate"><span class="pre">VerilogWriter.write_module_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.item_mgr_gen_verilog"><code class="docutils literal notranslate"><span class="pre">item_mgr_gen_verilog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.verilog_writer.write_verilog"><code class="docutils literal notranslate"><span class="pre">write_verilog()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.vhdl_writer">rtlgen.vhdl_writer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.vhdl_writer.VhdlWriter"><code class="docutils literal notranslate"><span class="pre">VhdlWriter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.vhdl_writer.write_vhdl"><code class="docutils literal notranslate"><span class="pre">write_vhdl()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen.writer_base">rtlgen.writer_base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.SimpleBlock"><code class="docutils literal notranslate"><span class="pre">SimpleBlock</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.SimpleBlock.on_enter"><code class="docutils literal notranslate"><span class="pre">SimpleBlock.on_enter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.SimpleBlock.on_exit"><code class="docutils literal notranslate"><span class="pre">SimpleBlock.on_exit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriteBlock"><code class="docutils literal notranslate"><span class="pre">WriteBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase"><code class="docutils literal notranslate"><span class="pre">WriterBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.calc_tab_list"><code class="docutils literal notranslate"><span class="pre">WriterBase.calc_tab_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.dec_indent"><code class="docutils literal notranslate"><span class="pre">WriterBase.dec_indent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.inc_indent"><code class="docutils literal notranslate"><span class="pre">WriterBase.inc_indent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.write_line"><code class="docutils literal notranslate"><span class="pre">WriterBase.write_line()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.write_lines"><code class="docutils literal notranslate"><span class="pre">WriterBase.write_lines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtlgen.html#rtlgen.writer_base.WriterBase.write_nl"><code class="docutils literal notranslate"><span class="pre">WriterBase.write_nl()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtlgen.html#module-rtlgen">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/modules.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">RTL-gen 1.0.0 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rtlgen</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2026, Yusuke Matsunaga.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>
