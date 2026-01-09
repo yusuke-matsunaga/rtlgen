@@ -13,4 +13,5 @@
 
 ## ドキュメント
 
-``docs/index.html`` にチュートリアルのドキュメントがあります．
+https://yusuke-matsunaga.github.io/rtlgen/
+にチュートリアルのドキュメントがあります．
